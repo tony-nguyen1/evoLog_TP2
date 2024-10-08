@@ -83,8 +83,8 @@ public class MyParser {
 	}
 	
 	
-	public static final String projectPath = "/home/tony/M2/evoLog/evoLog_TP1";
-	public static final String projectSourcePath = projectPath + "/src";
+	public static final String projectPath = "/home/tony/M2/evoLog/evoLog_TP2";
+	public static final String projectSourcePath = projectPath + "/src/main/java/dummy";
 	public static final String jrePath = "/usr/lib/jvm/java-8-openjdk-amd64/jre";
 	public static final int X = 2;
 
@@ -130,7 +130,9 @@ public class MyParser {
 			
 			// compute and extract here
 			MasterVisitor visitor = new MasterVisitor(parse);
+			Graph1Visitor visitor2 = new Graph1Visitor();
 			parse.accept(visitor);
+			parse.accept(visitor2);
 
 			
 			nbClass += visitor.getTypes().size();
@@ -222,15 +224,14 @@ public class MyParser {
 				
 				setMethod.add(methodInvocation.getName().getIdentifier());
 			}
-			if (setMethod.isEmpty()) {
-				System.out.println(method.getName() + " n'appel pas de méthode");
-			} else {				
-				System.out.println(method.getName() + " appel : ");		
-				for (String s : setMethod) {
-					System.out.println("  "+s);					
-				}
-			}
-
+//			if (setMethod.isEmpty()) {
+//				System.out.println(method.getName() + " n'appel pas de méthode");
+//			} else {				
+//				System.out.println(method.getName() + " appel : ");		
+//				for (String s : setMethod) {
+//					System.out.println("  "+s);					
+//				}
+//			}
 		}
 	}
 	
