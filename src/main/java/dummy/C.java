@@ -17,9 +17,9 @@ public class C {
 
 	@Override
 	public String toString() {
+		B b = new B();
+		b.toString();
 		return "C [i=" + i + ", getI()=" + this.getI() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
 	}
-	
-	
 }

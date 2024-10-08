@@ -70,7 +70,7 @@ public class MasterVisitor extends ASTVisitor {
 
         // Afficher le nom de la méthode et le nombre d'arguments
 //        System.out.println("Méthode: " + methodName + " -> Nombre d'arguments: " + argumentCount);
-        list.add(new CoupleNomData(this.nomClass+"::"+methodName, argumentCount));
+        list.add(new CoupleNomData(this.nomClass+"::"+methodName, argumentCount));//fix me
 
 		  
 		return super.visit(node);

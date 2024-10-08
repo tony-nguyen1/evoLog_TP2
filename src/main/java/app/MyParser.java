@@ -265,11 +265,11 @@ public class MyParser {
  
 		parser.setUnitName("");
  
-		String[] sources = { projectSourcePath }; 
+		String[] sources = { projectPath+"/src/main/java" }; // ICI très important
 		String[] classpath = {jrePath};
  
-		parser.setEnvironment(classpath, sources, new String[] { "UTF-8"}, true);
 		parser.setSource(classSource);
+		parser.setEnvironment(classpath, sources, new String[] { "UTF-8"}, true);
 		
 		return (CompilationUnit) parser.createAST(null); // create and parse
 	}

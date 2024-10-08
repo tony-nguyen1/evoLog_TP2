@@ -14,6 +14,6 @@ public class A extends B {
 	}
 	
 	private void foo(int i, int j, float f) { dummy.C c = new C(); c.getI(); }
-	private void oof(double d, String s) {}
+	private void oof(double d, String s) { foo(0, 1, 2); }
 	private void bar(Object o) {}
 }
