@@ -38,6 +38,17 @@ import step2.MethodDeclarationVisitor;
 import step2.MethodInvocationVisitor;
 import step2.VariableDeclarationFragmentVisitor;
 
+/***
+ *	Refactor this shit
+ *1.Now, iterate throught the file w/ 1 single visitor
+ *2. A single function for each visitor
+ *3. A fct for each general things that i want to calculate
+ *4. A fct to show it.
+ *
+ * 
+ * @author tony
+ *
+ */
 public class MyParser {
 	
 	static class CoupleNomData implements Comparable {
@@ -263,7 +274,7 @@ public class MyParser {
 			}
 		}
 
-		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(graphPondere,"src/test/resources/","graphPondere.png");
+		AppGraph.showGraphPond(graphPondere,"src/test/resources/","graphPondere.png");
 	}
 		
 		

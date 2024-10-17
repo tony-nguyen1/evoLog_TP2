@@ -20,5 +20,19 @@ public class OpenDefaultWeightedEdge extends DefaultWeightedEdge {
 		this.wheight = wheight;
 	}
 	
+	public String getSource() {
+		return (String) super.getSource();
+	}
 	
+	public String getTarget() {
+		return (String) super.getTarget();
+	}
+	
+	public Object getSourceObject() {
+		return super.getSource();
+	}
+	
+	public Object getTargetObject() {
+		return super.getTarget();
+	}
 }

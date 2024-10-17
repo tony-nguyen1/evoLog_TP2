@@ -2,6 +2,7 @@ package graph;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -76,6 +77,50 @@ public class AppGraph {
 	    return g;
 	}
 	
+	public static void showGraphPond(SimpleWeightedGraph<String, OpenDefaultWeightedEdge> g, String path, String nameFile) {
+		HashMap<String, Object> map = new HashMap<>();
+		
+		mxGraph mxGraph = new mxGraph();
+	    Object parent = mxGraph.getDefaultParent();
+	    mxGraph.getModel().beginUpdate();
+	    try {
+            Object o;
+            for (String s : g.vertexSet()) {
+				o = mxGraph.insertVertex(parent, null, s, 0, 0, 80, 30);
+				map.put(s, o);
+			}
+            
+            for (OpenDefaultWeightedEdge e : g.edgeSet()) {
+            	mxGraph.insertEdge(parent, null, String.valueOf(e.getWheight()), map.get(e.getSource()), map.get(e.getTarget()));
+            }
+        } finally {
+            mxGraph.getModel().endUpdate();
+        }
+	    
+	    
+	//	  Étape 3: Disposer automatiquement les sommets (ex: disposition circulaire)
+	    mxCircleLayout layout2 = new mxCircleLayout(mxGraph);
+	    layout2.execute(parent);
+      
+	   // Étape 4: Afficher le graphe dans une fenêtre (optionnel)
+	  JFrame frame = new JFrame();
+	  mxGraphComponent graphComponent = new mxGraphComponent(mxGraph);
+	  frame.getContentPane().add(graphComponent);
+	  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	  frame.setSize(600, 400);
+//	  frame.setVisible(true);
+	
+	  // Étape 5: Exporter l'image du graphe sans choisir de style pour les arêtes
+	  BufferedImage image = mxCellRenderer.createBufferedImage(mxGraph, null, 1, Color.WHITE, true, null);
+	  try {
+	      ImageIO.write(image, "PNG", new File("graph_image_auto_style.png"));
+	  System.out.println("Image exportée avec succès !");
+	  } catch (IOException e) {
+	      e.printStackTrace();
+	  }
+	    
+	}
+	
 	public static <T> void givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(Graph<String, T> g, String path, String nameFile) throws IOException { //FIXME
 
 	    JGraphXAdapter<String, T> graphAdapter = 
@@ -89,65 +134,6 @@ public class AppGraph {
 	      mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
 	    File imgFile = new File(path+nameFile);
 	    ImageIO.write(image, "PNG", imgFile);
-	    
-	    
-//	 // Étape 1: Créer un graphe pondéré avec JGraphT
-//        SimpleWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
-//
-//        // Ajouter des sommets
-//        graph.addVertex("A");
-//        graph.addVertex("B");
-//        graph.addVertex("C");
-//
-//        // Ajouter des arêtes avec poids
-//        DefaultWeightedEdge edgeAB = graph.addEdge("A", "B");
-//        graph.setEdgeWeight(edgeAB, 2.5);
-//
-//        DefaultWeightedEdge edgeBC = graph.addEdge("B", "C");
-//        graph.setEdgeWeight(edgeBC, 1.0);
-//
-//        DefaultWeightedEdge edgeCA = graph.addEdge("C", "A");
-//        graph.setEdgeWeight(edgeCA, 3.5);
-//	    
-//	    mxGraph mxGraph = new mxGraph();
-//	    Object parent = mxGraph.getDefaultParent();
-//	    mxGraph.getModel().beginUpdate();
-//	    try {
-//            // Créer les sommets dans JGraphX
-//            Object v1 = mxGraph.insertVertex(parent, null, "A", 0, 0, 80, 30);
-//            Object v2 = mxGraph.insertVertex(parent, null, "B", 0, 0, 80, 30);
-//            Object v3 = mxGraph.insertVertex(parent, null, "C", 0, 0, 80, 30);
-//            
-//            // Ajouter les arêtes avec poids affichés automatiquement
-//            mxGraph.insertEdge(parent, null, String.valueOf(graph.getEdgeWeight(edgeAB)), v1, v2);
-//            mxGraph.insertEdge(parent, null, String.valueOf(graph.getEdgeWeight(edgeBC)), v2, v3);
-//            mxGraph.insertEdge(parent, null, String.valueOf(graph.getEdgeWeight(edgeCA)), v3, v1);
-//        } finally {
-//            mxGraph.getModel().endUpdate();
-//        }
-//	    
-//	 // Étape 3: Disposer automatiquement les sommets (ex: disposition circulaire)
-//        mxCircleLayout layout2 = new mxCircleLayout(mxGraph);
-//        layout2.execute(parent);
-//        
-//     // Étape 4: Afficher le graphe dans une fenêtre (optionnel)
-//        JFrame frame = new JFrame();
-//        mxGraphComponent graphComponent = new mxGraphComponent(mxGraph);
-//        frame.getContentPane().add(graphComponent);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(600, 400);
-//        frame.setVisible(true);
-//
-//        // Étape 5: Exporter l'image du graphe sans choisir de style pour les arêtes
-//        image = mxCellRenderer.createBufferedImage(mxGraph, null, 1, Color.WHITE, true, null);
-//        try {
-//            ImageIO.write(image, "PNG", new File("graph_image_auto_style.png"));
-//            System.out.println("Image exportée avec succès !");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
 	}
 	
 	

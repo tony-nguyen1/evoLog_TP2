@@ -60,7 +60,7 @@ public class Graph1Visitor extends ASTVisitor {
 
         // Combiner le package, la classe et la méthode
         String fullMethodName = currentPackage + "." + className + "::" + methodName;
-//        System.out.println("Nom complet de la méthode: " + fullMethodName);
+        System.out.println("Nom complet de la méthode: " + fullMethodName);
 		
 		g.addVertex(fullMethodName);
 		
@@ -70,7 +70,6 @@ public class Graph1Visitor extends ASTVisitor {
             public boolean visit(MethodInvocation methodInvocation) {
                 // Récupérer le nom de la méthode appelée
 //                String calledMethodName = methodInvocation.getName().getFullyQualifiedName();
-//                System.out.println("calling "+calledMethodName);
                 
                 
                 
@@ -86,7 +85,7 @@ public class Graph1Visitor extends ASTVisitor {
                         String declaringClassName = declaringClass.getQualifiedName();
                         String source = fullMethodName;
                         String target = declaringClassName+"::"+methodName2;
-                        System.out.println("ici = " + target);
+//                        System.out.println("ici = " + target);
 
                         g.addVertex(source);
                         g.addVertex(target);
@@ -99,9 +98,12 @@ public class Graph1Visitor extends ASTVisitor {
                         
                         e.setClassTargetSource(declaringClassName);
                         e.setMethodNameTarget(methodName2);
+                        
+
+                        System.out.println("calling " + target);
                     }
                 } else {
-//                	System.out.println("resolveMethodBinding not succesful");
+                	System.out.println("resolveMethodBinding not succesful");
                 }
                 
                 return super.visit(methodInvocation);
