@@ -33,7 +33,7 @@ public class Placeholder {
 		String s = classHolder + "::" + methodName + " calls : ";
 		
 		for (Placeholder p : this.methodCalledList) {
-			s+= p.classHolder+"::"+p.methodName;
+			s+= p.classHolder+"::"+p.methodName+" ";
 		}
 		return s;
 	}

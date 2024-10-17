@@ -9,6 +9,7 @@ public class B extends C {
 	
 	@Override
 	public String toString() {
+		(new C()).getI();
 		return "";
 	}
 

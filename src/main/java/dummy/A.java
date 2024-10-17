@@ -11,9 +11,11 @@ public class A extends B {
 	
 	public A() {
 		this.j = 1;
+		(new C()).getI();
+		System.out.print("");
 	}
 	
 	private void foo(int i, int j, float f) { dummy.C c = new C(); c.getI(); }
-	private void oof(double d, String s) { foo(0, 1, 2); }
+	private void oof(double d, String s) { foo(0, 1, 2); (new C()).getI(); }
 	private void bar(Object o) {}
 }

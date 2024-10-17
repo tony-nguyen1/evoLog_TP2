@@ -25,7 +25,15 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.jgraph.graph.Edge;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.SimpleWeightedGraph;
 
+import graph.AppGraph;
+import graph.OpenDefaultWeightedEdge;
+import graph.OpenEdge;
 import step2.MethodDeclarationVisitor;
 import step2.MethodInvocationVisitor;
 import step2.VariableDeclarationFragmentVisitor;
@@ -117,6 +125,10 @@ public class MyParser {
 		HashSet<CoupleNomData> setTopNbMethod = new HashSet<>();
 		HashSet<CoupleNomData> setTopNbAttr= new HashSet<>();
 		ArrayList<CoupleNomData> listTopParam= new ArrayList<>();
+		Set<String> classNameSet = new HashSet<String>();
+		
+//		Pour le graph
+		ArrayList<DefaultDirectedGraph<String, OpenEdge>> listGraph = new ArrayList<DefaultDirectedGraph<String,OpenEdge>>();
 		
 		for (File fileEntry : javaFiles) {
 			
@@ -132,7 +144,14 @@ public class MyParser {
 			MasterVisitor visitor = new MasterVisitor(parse);
 			Graph1Visitor visitor2 = new Graph1Visitor();
 			parse.accept(visitor);
+			
+//			Pour le graph
+			System.out.println("\n\nPour le graph");
 			parse.accept(visitor2);
+			DefaultDirectedGraph<String, OpenEdge> g = visitor2.getG();
+//			AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(g,"src/test/resources/graph.png");
+			listGraph.add(g);
+			System.out.println("Graph............");
 
 			
 			nbClass += visitor.getTypes().size();
@@ -155,6 +174,8 @@ public class MyParser {
 			listTopParam.add(l.get(0));
 			listTopNbMethod.add(new CoupleNomData(nom, nbMethod));
 			listTopNbAttr.add(new CoupleNomData(nom, nbAttr));
+			
+			classNameSet.addAll(visitor2.getClassNameSet());
 		
 			printMethodInvocationInfo(parse);
 			
@@ -198,6 +219,51 @@ public class MyParser {
 		if (!listTopParam.isEmpty()) {
 			System.out.println(listTopParam.get(0).nom);
 		}
+		
+//		Fusioner les graphs entre eux
+		DefaultDirectedGraph<String, OpenEdge> masterGraph = new DefaultDirectedGraph<String, OpenEdge>(OpenEdge.class);
+		for (DefaultDirectedGraph<String, OpenEdge> defaultDirectedGraph : listGraph) {
+			for (String nomNoeud : defaultDirectedGraph.vertexSet()) {
+				masterGraph.addVertex(nomNoeud);
+			}
+			
+			for (OpenEdge e: defaultDirectedGraph.edgeSet()) {
+				masterGraph.addEdge((String) e.getSource(), (String) e.getTarget(), e);
+			}
+		}
+		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(masterGraph,"src/test/resources/","graph.png");
+		System.out.println("Nombre de relation: "+ masterGraph.edgeSet().size());
+		AppGraph.nbRelation(masterGraph, "dummy.B", "dummy.C");
+
+		AppGraph.nbRelation(masterGraph, "dummy.A", "dummy.C");
+		
+		
+		SimpleWeightedGraph <String, OpenDefaultWeightedEdge> graphPondere = new SimpleWeightedGraph<>(OpenDefaultWeightedEdge.class);
+		classNameSet.stream().forEach(aClassName -> graphPondere.addVertex(aClassName));
+		for (String s : classNameSet) {
+			for (String t : classNameSet) {
+				if (!s.equals(t)) {
+					System.out.print(s+" X "+t+" : ");
+				
+					float n = AppGraph.nbRelation(masterGraph, t, s);
+					
+					float nbTotal = nbMethodTotal*(nbMethodTotal-1);
+					
+					float res = n / nbTotal;
+					
+					System.out.println(res);
+					
+					if (n != 0) {
+						OpenDefaultWeightedEdge e;
+						if ((e = graphPondere.addEdge(s, t)) != null) {
+						e.setWheight(res);
+						}						
+					}
+				}				
+			}
+		}
+
+		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(graphPondere,"src/test/resources/","graphPondere.png");
 	}
 		
 		

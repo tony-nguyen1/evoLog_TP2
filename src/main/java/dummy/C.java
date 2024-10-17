@@ -12,6 +12,7 @@ public class C {
 	}
 
 	public void setI(int i) {
+		(new C()).getI();
 		this.i = i;
 	}
 

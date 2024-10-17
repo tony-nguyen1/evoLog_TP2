@@ -16,7 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MasterVisitor extends ASTVisitor {
 
@@ -116,6 +118,14 @@ public class MasterVisitor extends ASTVisitor {
 	 */
 	public ArrayList<MyParser.CoupleNomData> getList() {
 		return list;
+	}
+	
+	/**
+	 * @return the list
+	 */
+	public HashSet<String> getClassName() {
+		
+		return this.types.stream().map(t -> t.getName().getFullyQualifiedName()).collect(Collectors.toCollection(HashSet::new));
 	}
 
     /**
