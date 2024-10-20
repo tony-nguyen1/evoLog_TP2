@@ -3,6 +3,8 @@ package graph;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -113,7 +115,7 @@ public class AppGraph {
 	  // Étape 5: Exporter l'image du graphe sans choisir de style pour les arêtes
 	  BufferedImage image = mxCellRenderer.createBufferedImage(mxGraph, null, 1, Color.WHITE, true, null);
 	  try {
-	      ImageIO.write(image, "PNG", new File("graph_image_auto_style.png"));
+	      ImageIO.write(image, "PNG", new File(path+nameFile));
 	  System.out.println("Image exportée avec succès !");
 	  } catch (IOException e) {
 	      e.printStackTrace();
@@ -146,6 +148,28 @@ public class AppGraph {
 //		System.out.println("Number of call from " + A + " to " + B + ": " + g.edgeSet().stream().filter(e -> e.getClassNameSource().equals(B)).filter(e -> e.getClassNameTarget().equals(A)).count());
 //		System.out.println("Number of call from " + B + " to " + A + ": " + g.edgeSet().stream().filter(e -> e.getClassNameSource().equals(A)).filter(e -> e.getClassNameTarget().equals(B)).count());
 //		
+		return nbAppel;
+	}
+	
+	
+	/***
+	 * 
+	 * Calcul le nombre d'appel entre les classes de A et B.
+	 * 
+	 * @param g graph d'appel
+	 * @param setA ensemble des noms des classes dans un 1st cluster
+	 * @param setB ensemble des noms des classes dans un 2nd cluster
+	 * @return le couple //2 clusters fortement couplé
+	 */
+	public static int clusterProche(DefaultDirectedGraph<String, OpenEdge> g, Set<String> setA, Set<String> setB) {
+		int nbAppel = 0;
+		
+		nbAppel += g.edgeSet().stream().filter(e -> setB.contains(e.getClassNameSource())).filter(e -> setA.contains(e.getClassNameTarget())).count();
+		nbAppel += g.edgeSet().stream().filter(e -> setA.contains(e.getClassNameSource())).filter(e -> setB.contains(e.getClassNameTarget())).count();
+//		nbAppel += g.edgeSet().stream().filter(e -> e.getClassNameSource().equals(A)).filter(e -> e.getClassNameTarget().equals(B)).count();
+		
+//		System.out.println("npAppel="+nbAppel+"    "+setA+setB);
+		
 		return nbAppel;
 	}
 	

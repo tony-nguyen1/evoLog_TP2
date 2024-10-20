@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import dummy.C;
 
 public class A extends B {
-	static class D {}
+//	static class D {}
 	int i = 9;
 	public int j;
 	private ArrayList<Integer> al = new ArrayList<Integer>();

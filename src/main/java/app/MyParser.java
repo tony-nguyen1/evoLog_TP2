@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.internal.utils.FileUtil;
@@ -25,12 +27,17 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.jgraph.graph.Edge;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
+import cluster.Cluster;
+import cluster.Leaf;
+import cluster.Node;
 import graph.AppGraph;
 import graph.OpenDefaultWeightedEdge;
 import graph.OpenEdge;
@@ -122,32 +129,35 @@ public class MyParser {
 		selectionSize = (int) Math.ceil((double)nbFile/10);
 	}
 	
+	private Set<String> getClassNameSet() throws IOException {
+		Set<String> classNameSet = new HashSet<String>();
+		
+		for (File fileEntry : javaFiles) {
+			
+			String content = FileUtils.readFileToString(fileEntry);
+			CompilationUnit parse = parse(content.toCharArray());
+			
+			Graph1Visitor visitor = new Graph1Visitor();
+			parse.accept(visitor);
+			
+			classNameSet.addAll(visitor.getClassNameSet());
+		}
+		
+		return classNameSet;
+	}
+	
 	public void compute() throws IOException {
 		
 		int nbClass = 0;
-		int nbLine = 0;
 		int nbMethodTotal = 0;
-		int nbLineMethod = 0;
-		int nbAttrTotal = 0;
 		
 		Set<String> packageNameSet = new HashSet<>();
-		ArrayList<CoupleNomData> listTopNbMethod = new ArrayList<>();
-		ArrayList<CoupleNomData> listTopNbAttr = new ArrayList<>();
-		HashSet<CoupleNomData> setTopNbMethod = new HashSet<>();
-		HashSet<CoupleNomData> setTopNbAttr= new HashSet<>();
-		ArrayList<CoupleNomData> listTopParam= new ArrayList<>();
 		Set<String> classNameSet = new HashSet<String>();
 		
 //		Pour le graph
 		ArrayList<DefaultDirectedGraph<String, OpenEdge>> listGraph = new ArrayList<DefaultDirectedGraph<String,OpenEdge>>();
 		
 		for (File fileEntry : javaFiles) {
-			
-			int nbMethod, nbAttr;
-			String nom = fileEntry.getName();
-			int end = nom.lastIndexOf(".java");
-			nom = nom.substring(0, end);
-
 			String content = FileUtils.readFileToString(fileEntry);
 			CompilationUnit parse = parse(content.toCharArray());
 			
@@ -156,79 +166,93 @@ public class MyParser {
 			Graph1Visitor visitor2 = new Graph1Visitor();
 			parse.accept(visitor);
 			
-//			Pour le graph
-			System.out.println("\n\nPour le graph");
+			// pour le graph
 			parse.accept(visitor2);
 			DefaultDirectedGraph<String, OpenEdge> g = visitor2.getG();
-//			AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(g,"src/test/resources/graph.png");
 			listGraph.add(g);
-			System.out.println("Graph............");
 
 			
 			nbClass += visitor.getTypes().size();
 			
-			nbLine += visitor.getTotalLines();
-			
-			nbMethod = visitor.getNbMethod();
+			int nbMethod= visitor.getNbMethod();
 			nbMethodTotal += nbMethod;
 			
 			packageNameSet.add(visitor.getPackageName());
 			
-			nbLineMethod += visitor.getNbMethodLine();
 			
-			nbAttr = visitor.getNbAttr();
-			nbAttrTotal += nbAttr;
-			
-			ArrayList<MyParser.CoupleNomData> l = visitor.getList();
-			Collections.sort(l);
-			
-			listTopParam.add(l.get(0));
-			listTopNbMethod.add(new CoupleNomData(nom, nbMethod));
-			listTopNbAttr.add(new CoupleNomData(nom, nbAttr));
 			
 			classNameSet.addAll(visitor2.getClassNameSet());
 		
-			printMethodInvocationInfo(parse);
+//			printMethodInvocationInfo(parse);
 			
 		}
-		float nbMoyenMeth = nbMethodTotal/nbClass;
-		float avgSizeMetho = nbLineMethod/nbMethodTotal;
-		Collections.sort(listTopNbMethod);
-		Collections.sort(listTopNbAttr);
-		for (int i=0; i<selectionSize; i++) {
-			setTopNbAttr.add(listTopNbAttr.get(i));
-			setTopNbMethod.add(listTopNbMethod.get(i));
-		}
-		Collections.sort(listTopParam);
 
 		// exploitation des infos
 		System.out.println("Nombre de classes dans l'application: \n"+nbClass);
-		System.out.println("Nombre de lignes dans l'application: \n"+nbLine);
 		System.out.println("Nombre de méthodes dans l'application: \n"+nbMethodTotal);
 		System.out.println("Nombre de pacakge dans l'application: \n"+packageNameSet.size());
-		System.out.println("Nombre moyen de méthode par class dans l'application: \n"+nbMoyenMeth);
-		System.out.println("Taille moyennes des méthodes dans l'application: \n"+avgSizeMetho);
-		System.out.println("Nombre d'attribut dans l'application: \n"+nbAttrTotal);
 		
-		System.out.println("Top 10% ("+selectionSize+"/"+nbFile+") des classes qui possèdent le plus de méthodes:");
-		for (int i=0; i<selectionSize; i++) {
-			System.out.print(listTopNbMethod.get(i).nom+" ");
-		}System.out.println();
+//		Fusioner les graphs entre eux
+		DefaultDirectedGraph<String, OpenEdge> masterGraph = getGraphAppel();
 		
-		System.out.println("Top 10% ("+selectionSize+"/"+nbFile+") des classes qui possèdent le plus d'attributs:");
-		for (int i=0; i<selectionSize; i++) {
-			System.out.print(listTopNbAttr.get(i).nom+" ");
-		}System.out.println();
+		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(masterGraph,"src/test/resources/","graphAppel.png");
+		System.out.println("Nombre de relation: "+ masterGraph.edgeSet().size());
 		
-		System.out.println("L'intersection des 2:");
-		setTopNbAttr.retainAll(setTopNbMethod);
-		for(CoupleNomData c : setTopNbAttr) {
-			System.out.println(c.nom);
+		
+		SimpleWeightedGraph <String, OpenDefaultWeightedEdge> graphPondere = getGraphCouplage(classNameSet, masterGraph, nbMethodTotal);//new SimpleWeightedGraph<>(OpenDefaultWeightedEdge.class);
+		AppGraph.showGraphPond(graphPondere,"src/test/resources/","graphPondereCouplageClass.png");
+
+		
+		//TODO récup le cluster puis faire l'arbre
+		Pair<DefaultDirectedGraph<String, OpenEdge>, Cluster> result = clustering_hierarchique(masterGraph, nbMethodTotal);
+		DefaultDirectedGraph<String, OpenEdge> dendo = result.getValue0();
+		Cluster root = result.getValue1();
+		System.out.println(root);
+		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(dendo,"src/test/resources/","dendogramme.png");
+		
+		getModule(0, dendo, root, nbClass);
+	}
+	
+	public SimpleWeightedGraph <String, OpenDefaultWeightedEdge> getGraphCouplage(Set<String> classNameSet, DefaultDirectedGraph<String, OpenEdge> masterGraph, int nbMethodTotal) {
+		SimpleWeightedGraph <String, OpenDefaultWeightedEdge> graphPondere = new SimpleWeightedGraph<>(OpenDefaultWeightedEdge.class);
+		classNameSet.stream().forEach(aClassName -> graphPondere.addVertex(aClassName));
+		for (String s : classNameSet) {
+			for (String t : classNameSet) {
+				if (!s.equals(t)) {
+				
+					float n = AppGraph.nbRelation(masterGraph, t, s);
+					
+					float nbTotal = nbMethodTotal*(nbMethodTotal-1);
+					
+					float res = n / nbTotal;
+					
+					if (n != 0) {
+						OpenDefaultWeightedEdge e;
+						if ((e = graphPondere.addEdge(s, t)) != null) {
+						e.setWheight(res);
+						}						
+					}
+				}				
+			}
 		}
 		
-		System.out.println("Nombre maximal de paramètres pour une méthode de l'application:");
-		if (!listTopParam.isEmpty()) {
-			System.out.println(listTopParam.get(0).nom);
+		return graphPondere;		
+	}
+	
+	public DefaultDirectedGraph<String, OpenEdge> getGraphAppel() throws IOException {
+		ArrayList<DefaultDirectedGraph<String, OpenEdge>> listGraph = new ArrayList<DefaultDirectedGraph<String,OpenEdge>>();
+				
+		for (File fileEntry : javaFiles) {
+			
+			String content = FileUtils.readFileToString(fileEntry);
+			CompilationUnit parse = parse(content.toCharArray());
+
+			Graph1Visitor visitor = new Graph1Visitor();
+			parse.accept(visitor);
+			
+			DefaultDirectedGraph<String, OpenEdge> g = visitor.getG();
+			
+			listGraph.add(g);
 		}
 		
 //		Fusioner les graphs entre eux
@@ -242,43 +266,120 @@ public class MyParser {
 				masterGraph.addEdge((String) e.getSource(), (String) e.getTarget(), e);
 			}
 		}
-		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(masterGraph,"src/test/resources/","graph.png");
-		System.out.println("Nombre de relation: "+ masterGraph.edgeSet().size());
-		AppGraph.nbRelation(masterGraph, "dummy.B", "dummy.C");
-
-		AppGraph.nbRelation(masterGraph, "dummy.A", "dummy.C");
 		
-		
-		SimpleWeightedGraph <String, OpenDefaultWeightedEdge> graphPondere = new SimpleWeightedGraph<>(OpenDefaultWeightedEdge.class);
-		classNameSet.stream().forEach(aClassName -> graphPondere.addVertex(aClassName));
-		for (String s : classNameSet) {
-			for (String t : classNameSet) {
-				if (!s.equals(t)) {
-					System.out.print(s+" X "+t+" : ");
-				
-					float n = AppGraph.nbRelation(masterGraph, t, s);
-					
-					float nbTotal = nbMethodTotal*(nbMethodTotal-1);
-					
-					float res = n / nbTotal;
-					
-					System.out.println(res);
-					
-					if (n != 0) {
-						OpenDefaultWeightedEdge e;
-						if ((e = graphPondere.addEdge(s, t)) != null) {
-						e.setWheight(res);
-						}						
-					}
-				}				
-			}
-		}
-
-		AppGraph.showGraphPond(graphPondere,"src/test/resources/","graphPondere.png");
+		return masterGraph;
 	}
 		
+	// partitionnement de l'arbre
+	public void getModule(double cp, DefaultDirectedGraph<String, OpenEdge> dendo, Cluster root, int nbClasses) {
+		System.out.println("modulage");
+		List<Cluster> listModule = new ArrayList<>();
+//		System.out.println(root);
+//		System.out.println();
 		
+		
+//		ArrayList<String> a = dendo.vertexSet().stream().filter(v -> dendo.inDegreeOf(v) == 0).collect(Collectors.toCollection(ArrayList::new));
+//		assert a.size() == 1;
+		
+		
+		
+		ArrayList<ArrayList<String>> resModule = new ArrayList<>();
+		
+		//Descendre dans le dendo depuis le noeud racine,
+//		Si la cpValue du Noeud courant est inférieur à CP, on essaye de descendre,
+		// quand le cp du noeud courant est supérieur, s'arrêter et partitioner en module
+		
+		
+		ArrayList<Set<String>> result = new ArrayList<Set<String>>();
+		aux(root, result);
+		System.out.println(result);
+	}
 	
+	private void aux(Cluster root, List<Set<String>> res) {
+		Cluster current = root;
+		
+		if (current.check(0.3)) {
+			System.out.println("succes");
+			System.out.println(root);
+			res.add(root.getNames());
+		} else {
+			aux(root.getLeftChild(), res);
+			aux(root.getRightChild(), res);
+		}
+		
+	}
+		
+	public Pair<DefaultDirectedGraph<String, OpenEdge>, Cluster> clustering_hierarchique(DefaultDirectedGraph<String, OpenEdge> g, int nbMethod) throws IOException {
+		// l'arbre dendogramme qui représentes les diffférents clusters
+		DefaultDirectedGraph<String, OpenEdge> dendroTree = new DefaultDirectedGraph<String, OpenEdge>(OpenEdge.class);
+		// les différentes classes de l'application qu'on analyse
+		ArrayList<String> classes;
+		
+		Set<String> classNameSet = getClassNameSet();
+		ArrayList<Cluster> clusters = new ArrayList<>();
+		classNameSet.stream().forEach(x -> {
+			clusters.add(new Leaf(x));
+			dendroTree.addVertex(x);
+		});
+		Node root = null;// = new Node();
+		
+		
+		int i = 0;
+		// while
+		
+		while (i < clusters.size()) {
+			
+			// calcul
+			Triplet<Cluster, Cluster, Double> pair = Cluster.clusterProche(clusters, g, nbMethod);
+			Cluster c1, c2;
+			c1 = pair.getValue0();
+			c2 = pair.getValue1();
+			
+			// ajout dans dendogramme
+			Node n;
+			n = new Node(c1, c2, String.valueOf(i), pair.getValue2());
+			
+
+			dendroTree.addVertex(String.valueOf(i));
+			dendroTree.addEdge(String.valueOf(i), c1.getName());
+			dendroTree.addEdge(String.valueOf(i), c2.getName());
+			
+			root = n;
+			
+			clusters.remove(c1);
+			clusters.remove(c2);
+			
+			clusters.add(n);
+			
+			i++;
+		}
+		
+		// link up the last two clusters
+		
+//		Pair<Cluster, Cluster> pair = Cluster.clusterProche(clusters, g);
+//		
+//		Cluster c1, c2;
+//		c1 = pair.getValue0();
+//		c2 = pair.getValue1();
+//		
+//		
+//		// ajout dans dendogramme
+//		
+//		Node n;
+//		n = new Node(c1, c2, String.valueOf(i));
+//
+//		dendroTree.addVertex(String.valueOf(i));
+//		dendroTree.addEdge(String.valueOf(i), c1.getName());
+//		dendroTree.addEdge(String.valueOf(i), c2.getName());
+//		root = n;
+//		
+//		clusters.remove(c1);
+//		clusters.remove(c2);
+//		
+//		clusters.add(n);
+		
+		return new Pair<>(dendroTree, root);
+	}
 	
 
 	public static void main(String[] args) throws IOException {
