@@ -87,6 +87,7 @@ public class Graph1Visitor extends ASTVisitor {
                         String target = declaringClassName+"::"+methodName2;
 //                        System.out.println("ici = " + target);
 
+                        // trick : ajout de la source et la cible -> ajout de l'arête plus facile
                         g.addVertex(source);
                         g.addVertex(target);
                         

@@ -70,7 +70,7 @@ public abstract class Cluster {
 				}
 			}
 		}
-		System.out.println(best);
+//		System.out.println(best);
 	
 		return best;
 	}

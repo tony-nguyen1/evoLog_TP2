@@ -156,6 +156,7 @@ public class MyParser {
 		
 //		Pour le graph
 		ArrayList<DefaultDirectedGraph<String, OpenEdge>> listGraph = new ArrayList<DefaultDirectedGraph<String,OpenEdge>>();
+		ClassesNumberVisitor visitorNbClass = new ClassesNumberVisitor();
 		
 		for (File fileEntry : javaFiles) {
 			String content = FileUtils.readFileToString(fileEntry);
@@ -164,28 +165,20 @@ public class MyParser {
 			// compute and extract here
 			MasterVisitor visitor = new MasterVisitor(parse);
 			Graph1Visitor visitor2 = new Graph1Visitor();
+			
 			parse.accept(visitor);
-			
-			// pour le graph
+			parse.accept(visitorNbClass);
 			parse.accept(visitor2);
-			DefaultDirectedGraph<String, OpenEdge> g = visitor2.getG();
-			listGraph.add(g);
 
-			
-			nbClass += visitor.getTypes().size();
-			
+			listGraph.add(visitor2.getG());
 			int nbMethod= visitor.getNbMethod();
 			nbMethodTotal += nbMethod;
-			
-			packageNameSet.add(visitor.getPackageName());
-			
-			
-			
-			classNameSet.addAll(visitor2.getClassNameSet());
-		
-//			printMethodInvocationInfo(parse);
-			
+			packageNameSet.add(visitor.getPackageName());			
+			classNameSet.addAll(visitor2.getClassNameSet());		
 		}
+		
+		nbClass = visitorNbClass.getTypes().size();
+//		System.out.println(visitorNbClass.getTypes().size());
 
 		// exploitation des infos
 		System.out.println("Nombre de classes dans l'application: \n"+nbClass);
@@ -210,9 +203,18 @@ public class MyParser {
 		System.out.println(root);
 		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(dendo,"src/test/resources/","dendogramme.png");
 		
-		getModule(0, dendo, root, nbClass);
+		ArrayList<Set<String>> res = getModule(0, dendo, root, nbClass);
+		System.out.println("Mes modules :\n" + res);
 	}
 	
+	/***
+	 * Crée un graph pondéré représentant le couplage entre les classes de l'application
+	 * 
+	 * @param classNameSet
+	 * @param masterGraph
+	 * @param nbMethodTotal
+	 * @return
+	 */
 	public SimpleWeightedGraph <String, OpenDefaultWeightedEdge> getGraphCouplage(Set<String> classNameSet, DefaultDirectedGraph<String, OpenEdge> masterGraph, int nbMethodTotal) {
 		SimpleWeightedGraph <String, OpenDefaultWeightedEdge> graphPondere = new SimpleWeightedGraph<>(OpenDefaultWeightedEdge.class);
 		classNameSet.stream().forEach(aClassName -> graphPondere.addVertex(aClassName));
@@ -239,9 +241,16 @@ public class MyParser {
 		return graphPondere;		
 	}
 	
-	public DefaultDirectedGraph<String, OpenEdge> getGraphAppel() throws IOException {
+	/**
+	 * Crée le graph d'appel entre les méthodes des class dans l'application analysées
+	 * 
+	 * @return le graph d'appel
+	 * @throws IOException
+	 */
+	public DefaultDirectedGraph<String, OpenEdge> getGraphAppel() throws IOException { //FIX ME : faire ça en 1 fois, sans recréer de nouveau graph
 		ArrayList<DefaultDirectedGraph<String, OpenEdge>> listGraph = new ArrayList<DefaultDirectedGraph<String,OpenEdge>>();
 				
+		// parcours total des fichier de l'application
 		for (File fileEntry : javaFiles) {
 			
 			String content = FileUtils.readFileToString(fileEntry);
@@ -270,16 +279,17 @@ public class MyParser {
 		return masterGraph;
 	}
 		
-	// partitionnement de l'arbre
-	public void getModule(double cp, DefaultDirectedGraph<String, OpenEdge> dendo, Cluster root, int nbClasses) {
-		System.out.println("modulage");
+	/**
+	 * À partir du dendrogramme, choisit le partionnement des classes en modules.
+	 * 
+	 * @param cp
+	 * @param dendo
+	 * @param root
+	 * @param nbClasses
+	 * @return
+	 */
+	public ArrayList<Set<String>> getModule(double cp, DefaultDirectedGraph<String, OpenEdge> dendo, Cluster root, int nbClasses) {
 		List<Cluster> listModule = new ArrayList<>();
-//		System.out.println(root);
-//		System.out.println();
-		
-		
-//		ArrayList<String> a = dendo.vertexSet().stream().filter(v -> dendo.inDegreeOf(v) == 0).collect(Collectors.toCollection(ArrayList::new));
-//		assert a.size() == 1;
 		
 		
 		
@@ -292,15 +302,14 @@ public class MyParser {
 		
 		ArrayList<Set<String>> result = new ArrayList<Set<String>>();
 		aux(root, result);
-		System.out.println(result);
+		
+		return result;
 	}
 	
 	private void aux(Cluster root, List<Set<String>> res) {
 		Cluster current = root;
 		
 		if (current.check(0.3)) {
-			System.out.println("succes");
-			System.out.println(root);
 			res.add(root.getNames());
 		} else {
 			aux(root.getLeftChild(), res);
@@ -309,6 +318,15 @@ public class MyParser {
 		
 	}
 		
+	/***
+	 * 
+	 * Create the dendrogramme from the graph of calls
+	 * 
+	 * @param g
+	 * @param nbMethod
+	 * @return
+	 * @throws IOException
+	 */
 	public Pair<DefaultDirectedGraph<String, OpenEdge>, Cluster> clustering_hierarchique(DefaultDirectedGraph<String, OpenEdge> g, int nbMethod) throws IOException {
 		// l'arbre dendogramme qui représentes les diffférents clusters
 		DefaultDirectedGraph<String, OpenEdge> dendroTree = new DefaultDirectedGraph<String, OpenEdge>(OpenEdge.class);
@@ -325,8 +343,6 @@ public class MyParser {
 		
 		
 		int i = 0;
-		// while
-		
 		while (i < clusters.size()) {
 			
 			// calcul
@@ -386,33 +402,6 @@ public class MyParser {
 		MyParser myParser = new MyParser("src/main/java/dummy");
 		myParser.compute();
 	}
-	
-	public static void printMethodInvocationInfo(CompilationUnit parse) {
-
-		MethodDeclarationVisitor visitor1 = new MethodDeclarationVisitor();
-		parse.accept(visitor1);
-		for (MethodDeclaration method : visitor1.getMethods()) {
-
-			MethodInvocationVisitor visitor2 = new MethodInvocationVisitor();
-			
-			method.accept(visitor2);
-
-			HashSet<String> setMethod = new HashSet();
-			for (MethodInvocation methodInvocation : visitor2.getMethods()) {
-				
-				setMethod.add(methodInvocation.getName().getIdentifier());
-			}
-//			if (setMethod.isEmpty()) {
-//				System.out.println(method.getName() + " n'appel pas de méthode");
-//			} else {				
-//				System.out.println(method.getName() + " appel : ");		
-//				for (String s : setMethod) {
-//					System.out.println("  "+s);					
-//				}
-//			}
-		}
-	}
-	
 	
 
 	// read all java files from specific folder
