@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
-import graph.AppGraph;
-import graph.OpenEdge;
+import graph.MyEdge;
+import graph.UtilGraph;
 
 public abstract class Cluster {
 	protected Cluster precedent;
@@ -40,7 +39,7 @@ public abstract class Cluster {
 	 * @param clusters
 	 * @return
 	 */
-	public static Triplet<Cluster, Cluster, Double> clusterProche(ArrayList<Cluster> clusters, DefaultDirectedGraph<String, OpenEdge> g, int nbMethod) {
+	public static Triplet<Cluster, Cluster, Double> clusterProche(ArrayList<Cluster> clusters, DefaultDirectedGraph<String, MyEdge> g, int nbMethod) {
 		
 		assert clusters.size() > 1;
 		
@@ -61,7 +60,7 @@ public abstract class Cluster {
 					setClassNameB = c2.getNames();
 					
 					// comparer
-					int nbRelation = AppGraph.clusterProche(g, setClassNameA, setClassNameB);
+					int nbRelation = UtilGraph.clusterProche(g, setClassNameA, setClassNameB);
 					
 					if (nbRelation > max) {
 						max = nbRelation;

@@ -2,7 +2,8 @@ package graph;
 
 import org.jgrapht.graph.DefaultEdge;
 
-public class OpenEdge extends DefaultEdge {
+@SuppressWarnings("serial")
+public class MyEdge extends DefaultEdge {
 	private String classNameSource;
 	private String methodNameSource;
 	private String classNameTarget;

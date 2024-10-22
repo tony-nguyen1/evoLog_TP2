@@ -2,7 +2,8 @@ package graph;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-public class OpenDefaultWeightedEdge extends DefaultWeightedEdge {
+@SuppressWarnings("serial")
+public class MyWeightedEdge extends DefaultWeightedEdge {
 
 	private float wheight;
 

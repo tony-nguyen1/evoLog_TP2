@@ -2,411 +2,180 @@ package app;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.Hashtable;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-import org.eclipse.core.internal.utils.FileUtil;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.MethodInvocation;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.javatuples.Pair;
-import org.javatuples.Triplet;
-import org.jgraph.graph.Edge;
 import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import cluster.Cluster;
-import cluster.Leaf;
-import cluster.Node;
-import graph.AppGraph;
-import graph.OpenDefaultWeightedEdge;
-import graph.OpenEdge;
-import step2.MethodDeclarationVisitor;
-import step2.MethodInvocationVisitor;
-import step2.VariableDeclarationFragmentVisitor;
+import graph.ImgGraph;
+import graph.MyEdge;
+import graph.MyWeightedEdge;
+import graph.UtilGraph;
+import visitor.ClassVisitor;
+import visitor.GraphVisitor;
+import visitor.MethodCountVisitor;
+import visitor.PackageVisitor;
 
-/***
- *	Refactor this shit
- *1.Now, iterate throught the file w/ 1 single visitor
- *2. A single function for each visitor
- *3. A fct for each general things that i want to calculate
- *4. A fct to show it.
- *
- * 
- * @author tony
- *
- */
 public class MyParser {
 	
-	static class CoupleNomData implements Comparable {
-		
-		private String nom;
-		private int nb;
-		
-		
-
-		public CoupleNomData(String nom, int nb) {
-			super();
-			this.nom = nom;
-			this.nb = nb;
-		}
-
-		
-
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(nom);
-		}
-
-
-
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (!(obj instanceof CoupleNomData)) {
-				return false;
-			}
-			CoupleNomData other = (CoupleNomData) obj;
-			return Objects.equals(nom, other.nom);
-		}
-
-
-
-
-		@Override
-		public int compareTo(Object o) {
-			if (o instanceof CoupleNomData) {
-				CoupleNomData tmp = (CoupleNomData) o;
-				return tmp.nb - this.nb;
-			}
-			return 0;
-		}
-		
-	}
+	//// Attributs
 	
-	
-	public static final String projectPath = "/home/tony/M2/evoLog/evoLog_TP2";
-	public static final String projectSourcePath = projectPath + "/src/main/java/dummy";
-	public static final String jrePath = "/usr/lib/jvm/java-8-openjdk-amd64/jre";
-	public static final int X = 2;
+	public final String projectPath;
+	public final String projectSourcePath;
+	public final String jrePath;
+
+	private final ArrayList<File> javaFiles;
+
 
 	
+	// Constructeur
 	
-	
-	
-	private ArrayList<File> javaFiles;
-	private int nbFile;
-	private int selectionSize;
-	
-	public MyParser(String pathToProject) {
+	public MyParser(String pathToProject, String projectPath, String projectSourcePath, String jrePath) {
 		final File folder = new File(pathToProject);
 		javaFiles = listJavaFilesForFolder(folder);
-		nbFile = javaFiles.size();
-		selectionSize = (int) Math.ceil((double)nbFile/10);
+		
+		this.projectPath = projectPath;
+		this.projectSourcePath =  projectPath + projectSourcePath;
+		this.jrePath = jrePath;
+	}
+
+
+	
+	/***
+	 * Parcours l'arbre a l'aide d'ASTVisitor et affiche les résultats calculés.
+	 * 
+	 * @throws IOException
+	 */
+	public void computeAndShow() throws IOException {
+		// parcours de l'arbre
+		int nbClass = this.getClassOfApplication().size();
+		int nbMethodTotal = this.getNbMethodOfApplication();
+		this.getGraphAppelOfApplication();
+		int nbPackage = this.getPackageNameSet().size();
+		Set<String> classNameSet = this.getClassNameSet();
+
+		// affichage des infos
+		System.out.println("Nombre de classes dans l'application: \n"+nbClass);
+		System.out.println("Nombre de méthodes dans l'application: \n"+nbMethodTotal);
+		System.out.println("Nombre de pacakge dans l'application: \n"+nbPackage);
+
+
+
+		// graph
+		DefaultDirectedGraph<String, MyEdge> masterGraph = getGraphAppelOfApplication();
+		ImgGraph.writeDirectedGraphIntoImg(masterGraph,"src/test/resources/","graphAppelShort.png");
+
+		ImgGraph.writeGraphIntoImg(masterGraph,"src/test/resources/","graphAppel.png");
+		System.out.println("Nombre de relation: "+ masterGraph.edgeSet().size());
+
+
+		SimpleWeightedGraph <String, MyWeightedEdge> graphPondere = UtilGraph.getGraphCouplage(classNameSet, masterGraph, nbMethodTotal);
+		ImgGraph.showGraphPond(graphPondere,"src/test/resources/","graphPondereCouplageClass.png");
+
+
+		//TODO récup le cluster puis faire l'arbre
+		Pair<DefaultDirectedGraph<String, MyEdge>, Cluster> result = UtilGraph.clustering_hierarchique(masterGraph, nbMethodTotal, this.getClassNameSet());
+		DefaultDirectedGraph<String, MyEdge> dendo = result.getValue0();
+		Cluster root = result.getValue1();
+		System.out.println(root);
+		ImgGraph.writeGraphIntoImg(dendo,"src/test/resources/","dendogramme.png");
+
+		ArrayList<Set<String>> res = UtilGraph.getModule(0, root, nbClass);
+		System.out.println("Mes modules :\n" + res);
+	}
+
+	
+	
+	public DefaultDirectedGraph<String,MyEdge> getGraphAppelOfApplication() throws IOException {
+		
+		GraphVisitor v = new GraphVisitor();
+		this.parseAll(v);
+
+		return v.getG();
+	}
+	
+	/***
+	 * Méthode auxiliaire. Prend en paramètre un ASTVisitor et visite toutes les AST des fichiers du programmes analysés.
+	 * 
+	 * @param v une implémentation d'ASTVisitor
+	 * @throws IOException
+	 */
+	private void parseAll(ASTVisitor v) throws IOException {
+		
+		// parcours total de la liste des fichiers de l'application
+		for (File fileEntry : javaFiles) {
+
+			// conversion d'un fichier source java en un String
+			String content = FileUtils.readFileToString(fileEntry, Charset.forName("UTF-8"));
+			// conversion du String en un AST
+			CompilationUnit parse = parse(content.toCharArray());
+
+			// visite d'un AST par le visiteur v
+			parse.accept(v);
+
+		}
+	}
+
+	public Set<String> getClassOfApplication() throws IOException {
+
+		ClassVisitor visitorNbClass = new ClassVisitor();				
+		this.parseAll(visitorNbClass);
+
+		return visitorNbClass.getClassNameSet();
+	}
+
+	public int getNbMethodOfApplication() throws IOException {
+
+		MethodCountVisitor methodCountVisitor = new MethodCountVisitor();
+		this.parseAll(methodCountVisitor);
+
+		return methodCountVisitor.getNbMethod();
 	}
 	
 	private Set<String> getClassNameSet() throws IOException {
-		Set<String> classNameSet = new HashSet<String>();
 		
-		for (File fileEntry : javaFiles) {
-			
-			String content = FileUtils.readFileToString(fileEntry);
-			CompilationUnit parse = parse(content.toCharArray());
-			
-			Graph1Visitor visitor = new Graph1Visitor();
-			parse.accept(visitor);
-			
-			classNameSet.addAll(visitor.getClassNameSet());
-		}
-		
-		return classNameSet;
+		ClassVisitor visitor = new ClassVisitor();
+		this.parseAll(visitor);
+
+
+		return visitor.getClassNameSet();
 	}
 	
-	public void compute() throws IOException {
-		
-		int nbClass = 0;
-		int nbMethodTotal = 0;
-		
-		Set<String> packageNameSet = new HashSet<>();
-		Set<String> classNameSet = new HashSet<String>();
-		
-//		Pour le graph
-		ArrayList<DefaultDirectedGraph<String, OpenEdge>> listGraph = new ArrayList<DefaultDirectedGraph<String,OpenEdge>>();
-		ClassesNumberVisitor visitorNbClass = new ClassesNumberVisitor();
-		
-		for (File fileEntry : javaFiles) {
-			String content = FileUtils.readFileToString(fileEntry);
-			CompilationUnit parse = parse(content.toCharArray());
-			
-			// compute and extract here
-			MasterVisitor visitor = new MasterVisitor(parse);
-			Graph1Visitor visitor2 = new Graph1Visitor();
-			
-			parse.accept(visitor);
-			parse.accept(visitorNbClass);
-			parse.accept(visitor2);
+	private Set<String> getPackageNameSet() throws IOException {
 
-			listGraph.add(visitor2.getG());
-			int nbMethod= visitor.getNbMethod();
-			nbMethodTotal += nbMethod;
-			packageNameSet.add(visitor.getPackageName());			
-			classNameSet.addAll(visitor2.getClassNameSet());		
-		}
-		
-		nbClass = visitorNbClass.getTypes().size();
-//		System.out.println(visitorNbClass.getTypes().size());
+		PackageVisitor visitor = new PackageVisitor();
+		this.parseAll(visitor);
 
-		// exploitation des infos
-		System.out.println("Nombre de classes dans l'application: \n"+nbClass);
-		System.out.println("Nombre de méthodes dans l'application: \n"+nbMethodTotal);
-		System.out.println("Nombre de pacakge dans l'application: \n"+packageNameSet.size());
-		
-//		Fusioner les graphs entre eux
-		DefaultDirectedGraph<String, OpenEdge> masterGraph = getGraphAppel();
-		
-		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(masterGraph,"src/test/resources/","graphAppel.png");
-		System.out.println("Nombre de relation: "+ masterGraph.edgeSet().size());
-		
-		
-		SimpleWeightedGraph <String, OpenDefaultWeightedEdge> graphPondere = getGraphCouplage(classNameSet, masterGraph, nbMethodTotal);//new SimpleWeightedGraph<>(OpenDefaultWeightedEdge.class);
-		AppGraph.showGraphPond(graphPondere,"src/test/resources/","graphPondereCouplageClass.png");
-
-		
-		//TODO récup le cluster puis faire l'arbre
-		Pair<DefaultDirectedGraph<String, OpenEdge>, Cluster> result = clustering_hierarchique(masterGraph, nbMethodTotal);
-		DefaultDirectedGraph<String, OpenEdge> dendo = result.getValue0();
-		Cluster root = result.getValue1();
-		System.out.println(root);
-		AppGraph.givenAdaptedGraph_whenWriteBufferedImage_thenFileShouldExist(dendo,"src/test/resources/","dendogramme.png");
-		
-		ArrayList<Set<String>> res = getModule(0, dendo, root, nbClass);
-		System.out.println("Mes modules :\n" + res);
+		return visitor.getPackageName();
 	}
+
+	
+	
+	//// Méthode de graph
+	
+	
+	
+	//// Méthodes utiles
 	
 	/***
-	 * Crée un graph pondéré représentant le couplage entre les classes de l'application
+	 * read all java files from specific folder
 	 * 
-	 * @param classNameSet
-	 * @param masterGraph
-	 * @param nbMethodTotal
+	 * @param folder
 	 * @return
 	 */
-	public SimpleWeightedGraph <String, OpenDefaultWeightedEdge> getGraphCouplage(Set<String> classNameSet, DefaultDirectedGraph<String, OpenEdge> masterGraph, int nbMethodTotal) {
-		SimpleWeightedGraph <String, OpenDefaultWeightedEdge> graphPondere = new SimpleWeightedGraph<>(OpenDefaultWeightedEdge.class);
-		classNameSet.stream().forEach(aClassName -> graphPondere.addVertex(aClassName));
-		for (String s : classNameSet) {
-			for (String t : classNameSet) {
-				if (!s.equals(t)) {
-				
-					float n = AppGraph.nbRelation(masterGraph, t, s);
-					
-					float nbTotal = nbMethodTotal*(nbMethodTotal-1);
-					
-					float res = n / nbTotal;
-					
-					if (n != 0) {
-						OpenDefaultWeightedEdge e;
-						if ((e = graphPondere.addEdge(s, t)) != null) {
-						e.setWheight(res);
-						}						
-					}
-				}				
-			}
-		}
-		
-		return graphPondere;		
-	}
-	
-	/**
-	 * Crée le graph d'appel entre les méthodes des class dans l'application analysées
-	 * 
-	 * @return le graph d'appel
-	 * @throws IOException
-	 */
-	public DefaultDirectedGraph<String, OpenEdge> getGraphAppel() throws IOException { //FIX ME : faire ça en 1 fois, sans recréer de nouveau graph
-		ArrayList<DefaultDirectedGraph<String, OpenEdge>> listGraph = new ArrayList<DefaultDirectedGraph<String,OpenEdge>>();
-				
-		// parcours total des fichier de l'application
-		for (File fileEntry : javaFiles) {
-			
-			String content = FileUtils.readFileToString(fileEntry);
-			CompilationUnit parse = parse(content.toCharArray());
-
-			Graph1Visitor visitor = new Graph1Visitor();
-			parse.accept(visitor);
-			
-			DefaultDirectedGraph<String, OpenEdge> g = visitor.getG();
-			
-			listGraph.add(g);
-		}
-		
-//		Fusioner les graphs entre eux
-		DefaultDirectedGraph<String, OpenEdge> masterGraph = new DefaultDirectedGraph<String, OpenEdge>(OpenEdge.class);
-		for (DefaultDirectedGraph<String, OpenEdge> defaultDirectedGraph : listGraph) {
-			for (String nomNoeud : defaultDirectedGraph.vertexSet()) {
-				masterGraph.addVertex(nomNoeud);
-			}
-			
-			for (OpenEdge e: defaultDirectedGraph.edgeSet()) {
-				masterGraph.addEdge((String) e.getSource(), (String) e.getTarget(), e);
-			}
-		}
-		
-		return masterGraph;
-	}
-		
-	/**
-	 * À partir du dendrogramme, choisit le partionnement des classes en modules.
-	 * 
-	 * @param cp
-	 * @param dendo
-	 * @param root
-	 * @param nbClasses
-	 * @return
-	 */
-	public ArrayList<Set<String>> getModule(double cp, DefaultDirectedGraph<String, OpenEdge> dendo, Cluster root, int nbClasses) {
-		List<Cluster> listModule = new ArrayList<>();
-		
-		
-		
-		ArrayList<ArrayList<String>> resModule = new ArrayList<>();
-		
-		//Descendre dans le dendo depuis le noeud racine,
-//		Si la cpValue du Noeud courant est inférieur à CP, on essaye de descendre,
-		// quand le cp du noeud courant est supérieur, s'arrêter et partitioner en module
-		
-		
-		ArrayList<Set<String>> result = new ArrayList<Set<String>>();
-		aux(root, result);
-		
-		return result;
-	}
-	
-	private void aux(Cluster root, List<Set<String>> res) {
-		Cluster current = root;
-		
-		if (current.check(0.3)) {
-			res.add(root.getNames());
-		} else {
-			aux(root.getLeftChild(), res);
-			aux(root.getRightChild(), res);
-		}
-		
-	}
-		
-	/***
-	 * 
-	 * Create the dendrogramme from the graph of calls
-	 * 
-	 * @param g
-	 * @param nbMethod
-	 * @return
-	 * @throws IOException
-	 */
-	public Pair<DefaultDirectedGraph<String, OpenEdge>, Cluster> clustering_hierarchique(DefaultDirectedGraph<String, OpenEdge> g, int nbMethod) throws IOException {
-		// l'arbre dendogramme qui représentes les diffférents clusters
-		DefaultDirectedGraph<String, OpenEdge> dendroTree = new DefaultDirectedGraph<String, OpenEdge>(OpenEdge.class);
-		// les différentes classes de l'application qu'on analyse
-		ArrayList<String> classes;
-		
-		Set<String> classNameSet = getClassNameSet();
-		ArrayList<Cluster> clusters = new ArrayList<>();
-		classNameSet.stream().forEach(x -> {
-			clusters.add(new Leaf(x));
-			dendroTree.addVertex(x);
-		});
-		Node root = null;// = new Node();
-		
-		
-		int i = 0;
-		while (i < clusters.size()) {
-			
-			// calcul
-			Triplet<Cluster, Cluster, Double> pair = Cluster.clusterProche(clusters, g, nbMethod);
-			Cluster c1, c2;
-			c1 = pair.getValue0();
-			c2 = pair.getValue1();
-			
-			// ajout dans dendogramme
-			Node n;
-			n = new Node(c1, c2, String.valueOf(i), pair.getValue2());
-			
-
-			dendroTree.addVertex(String.valueOf(i));
-			dendroTree.addEdge(String.valueOf(i), c1.getName());
-			dendroTree.addEdge(String.valueOf(i), c2.getName());
-			
-			root = n;
-			
-			clusters.remove(c1);
-			clusters.remove(c2);
-			
-			clusters.add(n);
-			
-			i++;
-		}
-		
-		// link up the last two clusters
-		
-//		Pair<Cluster, Cluster> pair = Cluster.clusterProche(clusters, g);
-//		
-//		Cluster c1, c2;
-//		c1 = pair.getValue0();
-//		c2 = pair.getValue1();
-//		
-//		
-//		// ajout dans dendogramme
-//		
-//		Node n;
-//		n = new Node(c1, c2, String.valueOf(i));
-//
-//		dendroTree.addVertex(String.valueOf(i));
-//		dendroTree.addEdge(String.valueOf(i), c1.getName());
-//		dendroTree.addEdge(String.valueOf(i), c2.getName());
-//		root = n;
-//		
-//		clusters.remove(c1);
-//		clusters.remove(c2);
-//		
-//		clusters.add(n);
-		
-		return new Pair<>(dendroTree, root);
-	}
-	
-
-	public static void main(String[] args) throws IOException {
-		MyParser myParser = new MyParser("src/main/java/dummy");
-		myParser.compute();
-	}
-	
-
-	// read all java files from specific folder
-	public static ArrayList<File> listJavaFilesForFolder(final File folder) {
-		ArrayList<File> javaFiles = new ArrayList<File>();
+	private static ArrayList<File> listJavaFilesForFolder(final File folder) {
+		ArrayList<File> javaFiles = new ArrayList<>();
 		for (File fileEntry : folder.listFiles()) {
 			if (fileEntry.isDirectory()) {
 				javaFiles.addAll(listJavaFilesForFolder(fileEntry));
@@ -418,26 +187,31 @@ public class MyParser {
 
 		return javaFiles;
 	}
-
-	// create AST
-	private static CompilationUnit parse(char[] classSource) {
+	
+	/***
+	 * 
+	 * @param classSource
+	 * @return
+	 */
+	private CompilationUnit parse(char[] classSource) {
 		ASTParser parser = ASTParser.newParser(AST.JLS4); // java +1.6
 		parser.setResolveBindings(true);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
- 
+
 		parser.setBindingsRecovery(true);
- 
-		Map options = JavaCore.getOptions();
+
+		@SuppressWarnings("unchecked")
+		Hashtable<String, String> options = JavaCore.getOptions();
 		parser.setCompilerOptions(options);
- 
+
 		parser.setUnitName("");
- 
-		String[] sources = { projectPath+"/src/main/java" }; // ICI très important
-		String[] classpath = {jrePath};
- 
+
+		String[] sources = { this.projectPath+"/src/main/java" }; // ICI très important
+		String[] classpath = {this.jrePath};
+
 		parser.setSource(classSource);
 		parser.setEnvironment(classpath, sources, new String[] { "UTF-8"}, true);
-		
+
 		return (CompilationUnit) parser.createAST(null); // create and parse
 	}
 }
