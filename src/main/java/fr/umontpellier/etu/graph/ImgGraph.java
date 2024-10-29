@@ -1,4 +1,4 @@
-package graph;
+package fr.umontpellier.etu.graph;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

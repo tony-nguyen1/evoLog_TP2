@@ -1,11 +1,9 @@
 package fr.umontpellier.etu.dummy;
 
-import dummy.B;
-
-public class C {
+public class E {
 	int i;int j;
 	
-	public C() {
+	public E() {
 		i = 0;
 	}
 
@@ -14,13 +12,13 @@ public class C {
 	}
 
 	public void setI(int i) {
-		(new C()).getI();
+		(new E()).getI();
 		this.i = i;
 	}
 
 	@Override
 	public String toString() {
-		return "C [i=" + i + ", getI()=" + this.getI() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+		return "E [i=" + i + ", getI()=" + this.getI() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
 	}
 }

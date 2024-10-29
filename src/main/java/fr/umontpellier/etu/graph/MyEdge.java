@@ -1,4 +1,4 @@
-package graph;
+package fr.umontpellier.etu.graph;
 
 import org.jgrapht.graph.DefaultEdge;
 

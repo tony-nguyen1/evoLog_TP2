@@ -1,4 +1,4 @@
-package dummy;
+package fr.umontpellier.etu.dummy;
 
 public class C {
 	int i;int j;

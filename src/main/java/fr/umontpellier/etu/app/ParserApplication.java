@@ -1,7 +1,7 @@
 /**
  * 
  */
-package app;
+package fr.umontpellier.etu.app;
 
 import java.io.IOException;
 

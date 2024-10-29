@@ -1,4 +1,4 @@
-package visitor;
+package fr.umontpellier.etu.visitor;
 
 import java.util.HashSet;
 import java.util.Set;

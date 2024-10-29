@@ -1,4 +1,4 @@
-package cluster;
+package fr.umontpellier.etu.cluster;
 
 import java.util.HashSet;
 import java.util.Set;

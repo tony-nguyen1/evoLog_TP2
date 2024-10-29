@@ -1,4 +1,4 @@
-package visitor;
+package fr.umontpellier.etu.visitor;
 
 import java.util.HashSet;
 
@@ -11,7 +11,7 @@ import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
-import graph.MyEdge;
+import fr.umontpellier.etu.graph.MyEdge;
 
 /**
  * Classe servant à construire graph d'appel des méthodes entre elles.

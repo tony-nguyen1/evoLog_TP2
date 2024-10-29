@@ -1,4 +1,4 @@
-package cluster;
+package fr.umontpellier.etu.cluster;
 
 public class Node extends Cluster {
 	public Double cpValue;

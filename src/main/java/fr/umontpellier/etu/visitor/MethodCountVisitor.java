@@ -1,4 +1,4 @@
-package visitor;
+package fr.umontpellier.etu.visitor;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;

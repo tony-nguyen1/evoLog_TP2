@@ -1,4 +1,4 @@
-package app;
+package fr.umontpellier.etu.app;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,15 +17,15 @@ import org.javatuples.Pair;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
-import cluster.Cluster;
-import graph.ImgGraph;
-import graph.MyEdge;
-import graph.MyWeightedEdge;
-import graph.UtilGraph;
-import visitor.ClassVisitor;
-import visitor.GraphVisitor;
-import visitor.MethodCountVisitor;
-import visitor.PackageVisitor;
+import fr.umontpellier.etu.cluster.Cluster;
+import fr.umontpellier.etu.graph.ImgGraph;
+import fr.umontpellier.etu.graph.MyEdge;
+import fr.umontpellier.etu.graph.MyWeightedEdge;
+import fr.umontpellier.etu.graph.UtilGraph;
+import fr.umontpellier.etu.visitor.ClassVisitor;
+import fr.umontpellier.etu.visitor.GraphVisitor;
+import fr.umontpellier.etu.visitor.MethodCountVisitor;
+import fr.umontpellier.etu.visitor.PackageVisitor;
 
 public class MyParser {
 	

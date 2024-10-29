@@ -1,7 +1,6 @@
-package dummy;
+package fr.umontpellier.etu.dummy;
 
 import java.util.ArrayList;
-import dummy.C;
 
 public class A extends B {
 //	static class D {}
@@ -15,7 +14,7 @@ public class A extends B {
 		System.out.print("");
 	}
 	
-	private void foo(int i, int j, float f) { dummy.C c = new C(); c.getI(); }
+	private void foo(int i, int j, float f) { C c = new C(); c.getI(); }
 	private void oof(double d, String s) { foo(0, 1, 2); (new C()).getI(); }
 	private void bar(Object o) {}
 }

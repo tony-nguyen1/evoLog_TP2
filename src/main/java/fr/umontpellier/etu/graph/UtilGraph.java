@@ -1,4 +1,4 @@
-package graph;
+package fr.umontpellier.etu.graph;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,9 +10,9 @@ import org.javatuples.Triplet;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
-import cluster.Cluster;
-import cluster.Leaf;
-import cluster.Node;
+import fr.umontpellier.etu.cluster.Cluster;
+import fr.umontpellier.etu.cluster.Leaf;
+import fr.umontpellier.etu.cluster.Node;
 
 /**
  *

@@ -1,4 +1,4 @@
-package cluster;
+package fr.umontpellier.etu.cluster;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,8 +7,8 @@ import java.util.Set;
 import org.javatuples.Triplet;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
-import graph.MyEdge;
-import graph.UtilGraph;
+import fr.umontpellier.etu.graph.MyEdge;
+import fr.umontpellier.etu.graph.UtilGraph;
 
 public abstract class Cluster {
 	protected Cluster precedent;
