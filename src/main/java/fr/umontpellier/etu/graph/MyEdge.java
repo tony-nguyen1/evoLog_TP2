@@ -8,11 +8,13 @@ public class MyEdge extends DefaultEdge {
 	private String methodNameSource;
 	private String classNameTarget;
 	private String methodNameTarget;
-	
+
+	@Override
 	public String getSource() {
 		return (String) super.getSource();
 	}
-	
+
+	@Override
 	public String getTarget() {
 		return (String) super.getTarget();
 	}
@@ -72,6 +74,6 @@ public class MyEdge extends DefaultEdge {
 	public void setMethodNameTarget(String methodNameTarget) {
 		this.methodNameTarget = methodNameTarget;
 	}
-	
-	
+
+
 }

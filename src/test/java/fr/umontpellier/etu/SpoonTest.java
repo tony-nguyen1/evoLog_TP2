@@ -1,9 +1,9 @@
 /**
- * 
+ *
  */
 package fr.umontpellier.etu;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -50,15 +50,15 @@ class SpoonTest {
 
 	@Test
 	void test() {
-		
+
 		MavenLauncher launcher = new MavenLauncher(
                 "/home/tony/M2/evoLog/evoLog_TP2",
                  MavenLauncher.SOURCE_TYPE.APP_SOURCE);
 
         CtModel model = launcher.buildModel();
-        
+
         System.out.println(model);
-		
+
 		fail("Not yet implemented");
 	}
 

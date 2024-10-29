@@ -11,7 +11,9 @@
 \contentsline {subsection}{\numberline {2.1}Algorithmes de création du graphe d'appel}{3}{subsection.2.1}%
 \contentsline {paragraph}{}{3}{section*.9}%
 \contentsline {subsection}{\numberline {2.2}Le couplage}{3}{subsection.2.2}%
+\contentsline {paragraph}{Définition}{3}{section*.10}%
 \contentsline {subsection}{\numberline {2.3}Graphe de couplage inter-classes}{3}{subsection.2.3}%
+\contentsline {paragraph}{UML}{3}{section*.11}%
 \contentsline {subsection}{\numberline {2.4}Montrer les visiteur}{3}{subsection.2.4}%
 \contentsline {section}{\numberline {3}Clusturing}{3}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Algorithme de clustering}{3}{subsection.3.1}%

@@ -20,19 +20,21 @@ public class MyWeightedEdge extends DefaultWeightedEdge {
 	public void setWheight(float wheight) {
 		this.wheight = wheight;
 	}
-	
+
+	@Override
 	public String getSource() {
 		return (String) super.getSource();
 	}
-	
+
+	@Override
 	public String getTarget() {
 		return (String) super.getTarget();
 	}
-	
+
 	public Object getSourceObject() {
 		return super.getSource();
 	}
-	
+
 	public Object getTargetObject() {
 		return super.getTarget();
 	}

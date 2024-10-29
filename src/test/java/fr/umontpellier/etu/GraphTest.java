@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.umontpellier.etu;
 
@@ -28,9 +28,9 @@ class GraphTest {
 		String projectPath = "/home/tony/M2/evoLog/evoLog_TP2";
 		String projectSourcePath = projectPath + "/src/main/java";
 		String jrePath = "/usr/lib/jvm/java-8-openjdk-amd64/jre";
-		
+
 		myParser = new MyParser("src/test/java/fr/umontpellier/etu/dummy", projectPath, projectSourcePath, jrePath);
-		
+
 		System.out.println(myParser.getNbMethodOfApplication());
 	}
 
@@ -80,7 +80,7 @@ class GraphTest {
 	}
 
 	/**
-	 * Test method for {@link graph.UtilGraph#clusterProche(org.jgrapht.graph.DefaultDirectedGraph, java.util.Set, java.util.Set)}.
+	 * Test method for {@link graph.UtilGraph#nbRelation(org.jgrapht.graph.DefaultDirectedGraph, java.util.Set, java.util.Set)}.
 	 */
 	@Test
 	final void testClusterProche() {

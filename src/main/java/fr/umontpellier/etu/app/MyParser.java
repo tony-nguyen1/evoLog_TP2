@@ -13,7 +13,6 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.javatuples.Pair;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
@@ -28,9 +27,9 @@ import fr.umontpellier.etu.visitor.MethodCountVisitor;
 import fr.umontpellier.etu.visitor.PackageVisitor;
 
 public class MyParser {
-	
+
 	//// Attributs
-	
+
 	public final String projectPath;
 	public final String projectSourcePath;
 	public final String jrePath;
@@ -38,23 +37,23 @@ public class MyParser {
 	private final ArrayList<File> javaFiles;
 
 
-	
+
 	// Constructeur
-	
+
 	public MyParser(String pathToProject, String projectPath, String projectSourcePath, String jrePath) {
 		final File folder = new File(pathToProject);
 		javaFiles = listJavaFilesForFolder(folder);
-		
+
 		this.projectPath = projectPath;
 		this.projectSourcePath =  projectPath + projectSourcePath;
 		this.jrePath = jrePath;
 	}
 
 
-	
+
 	/***
 	 * Parcours l'arbre a l'aide d'ASTVisitor et affiche les résultats calculés.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void computeAndShow() throws IOException {
@@ -72,47 +71,52 @@ public class MyParser {
 
 
 
-		// graph
+		// graph d'appel
 		DefaultDirectedGraph<String, MyEdge> masterGraph = getGraphAppelOfApplication();
-		ImgGraph.writeDirectedGraphIntoImg(masterGraph,"src/test/resources/","graphAppelShort.png");
+		ImgGraph.writeGraphIntoImgTopToBottomNoLabel(masterGraph,"src/test/resources/","graphAppelShort.png");
 
-		ImgGraph.writeGraphIntoImg(masterGraph,"src/test/resources/","graphAppel.png");
 		System.out.println("Nombre de relation: "+ masterGraph.edgeSet().size());
 
 
+		// graph pondere par la valeur du couplage cp entre les classes
 		SimpleWeightedGraph <String, MyWeightedEdge> graphPondere = UtilGraph.getGraphCouplage(classNameSet, masterGraph, nbMethodTotal);
 		ImgGraph.showGraphPond(graphPondere,"src/test/resources/","graphPondereCouplageClass.png");
 
 
-		//TODO récup le cluster puis faire l'arbre
-		Pair<DefaultDirectedGraph<String, MyEdge>, Cluster> result = UtilGraph.clustering_hierarchique(masterGraph, nbMethodTotal, this.getClassNameSet());
-		DefaultDirectedGraph<String, MyEdge> dendo = result.getValue0();
-		Cluster root = result.getValue1();
-		System.out.println(root);
-		ImgGraph.writeGraphIntoImg(dendo,"src/test/resources/","dendogramme.png");
+		// création de l'abre dendogramme à partir du graphe d'appel
+		Cluster root = UtilGraph.clustering_hierarchique(masterGraph, classNameSet);
 
+		DefaultDirectedGraph<String, MyEdge> dendo = new DefaultDirectedGraph<>(MyEdge.class);
+		root.makeDendo(dendo);
+		ImgGraph.writeGraphIntoImgTopToBottomNoLabel(dendo,"src/test/resources/","dendogrammeNew.png");
+//		System.out.println(root);
+
+		// découpage en module
 		ArrayList<Set<String>> res = UtilGraph.getModule(0, root, nbClass);
-		System.out.println("Mes modules :\n" + res);
+		System.out.println("Mes modules :");
+		res.stream().forEach((x) -> {
+			System.out.println("    "+x);
+		});
 	}
 
-	
-	
+
+
 	public DefaultDirectedGraph<String,MyEdge> getGraphAppelOfApplication() throws IOException {
-		
+
 		GraphVisitor v = new GraphVisitor();
 		this.parseAll(v);
 
 		return v.getG();
 	}
-	
+
 	/***
 	 * Méthode auxiliaire. Prend en paramètre un ASTVisitor et visite toutes les AST des fichiers du programmes analysés.
-	 * 
+	 *
 	 * @param v une implémentation d'ASTVisitor
 	 * @throws IOException
 	 */
 	private void parseAll(ASTVisitor v) throws IOException {
-		
+
 		// parcours total de la liste des fichiers de l'application
 		for (File fileEntry : javaFiles) {
 
@@ -129,7 +133,7 @@ public class MyParser {
 
 	public Set<String> getClassOfApplication() throws IOException {
 
-		ClassVisitor visitorNbClass = new ClassVisitor();				
+		ClassVisitor visitorNbClass = new ClassVisitor();
 		this.parseAll(visitorNbClass);
 
 		return visitorNbClass.getClassNameSet();
@@ -142,16 +146,16 @@ public class MyParser {
 
 		return methodCountVisitor.getNbMethod();
 	}
-	
+
 	private Set<String> getClassNameSet() throws IOException {
-		
+
 		ClassVisitor visitor = new ClassVisitor();
 		this.parseAll(visitor);
 
 
 		return visitor.getClassNameSet();
 	}
-	
+
 	private Set<String> getPackageNameSet() throws IOException {
 
 		PackageVisitor visitor = new PackageVisitor();
@@ -160,17 +164,17 @@ public class MyParser {
 		return visitor.getPackageName();
 	}
 
-	
-	
+
+
 	//// Méthode de graph
-	
-	
-	
+
+
+
 	//// Méthodes utiles
-	
+
 	/***
 	 * read all java files from specific folder
-	 * 
+	 *
 	 * @param folder
 	 * @return
 	 */
@@ -187,9 +191,9 @@ public class MyParser {
 
 		return javaFiles;
 	}
-	
+
 	/***
-	 * 
+	 *
 	 * @param classSource
 	 * @return
 	 */

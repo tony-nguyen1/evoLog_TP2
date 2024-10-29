@@ -74,11 +74,10 @@ public class GraphVisitor extends ASTVisitor {
 
                     // Récupérer la classe ou l'interface dans laquelle la méthode est définie
                     ITypeBinding declaringClass = methodBinding.getDeclaringClass();
-                    if (declaringClass != null) {
+                    if (declaringClass != null) { // isExternalMethod
                         String declaringClassName = declaringClass.getQualifiedName();
                         String source = fullMethodName;
                         String target = declaringClassName+"::"+methodName2;
-//                        System.out.println("ici = " + target);
 
                         // trick : ajout de la source et la cible -> ajout de l'arête plus facile
                         g.addVertex(source);
@@ -92,9 +91,6 @@ public class GraphVisitor extends ASTVisitor {
 
                         e.setClassTargetSource(declaringClassName);
                         e.setMethodNameTarget(methodName2);
-
-
-//                        System.out.println("calling " + target);
                     }
                 } else {
 //                	System.out.println("resolveMethodBinding not succesful");

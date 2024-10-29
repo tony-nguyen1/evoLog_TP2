@@ -21,7 +21,8 @@
 \usepackage{bookmark}
 \usepackage{blindtext}
 \setlength\columnsep{30pt}
-
+\usepackage{algorithm2e}
+\SetKwComment{Comment}{/* }{ */}
 
 
 \usepackage{graphicx}  % pour inclure des images
@@ -87,6 +88,8 @@
         Nous nous intéressons au couplage entre les classes de notre application. Il serait logique de réunir les classes fortement dépendantes les unes des autres. De la même façon, les classes qui n'ont aucun rapport entre elle, pour des raisons de clarté, peuvent être isolé.
         \subsection{Algorithmes de création du graphe d'appel}
         \paragraph{} La construction de ce graph est la base de ce travail. Il nous permettra ensuite de calculer le couplage entre les classes ...
+
+        Les méthodes qui se surchage entre elles (les méthodes ayant le même nom dans une classe mais avec une signature différente) sont confondues.
         \subsection{Le couplage}
         \paragraph{Définition} TODO INSERT EPIC MATH FORMULA HERE 
         \subsection{Graphe de couplage inter-classes}
@@ -97,6 +100,52 @@
         \section{Clusturing}
         Nous allons maintenant voir comment nous avons rassemblé les classes entre elles. 
         \subsection{Algorithme de clustering}
+        \begin{algorithm}
+        \caption{An algorithm with caption}\label{alg:two}
+        \KwData{$n \geq 0$}
+        \KwResult{$y = x^n$}
+        $y \gets 1$\;
+        $X \gets x$\;
+        $N \gets n$\;
+        \While{$N \neq 0$}{
+        \eIf{$N$ is even}{
+            $X \gets X \times X$\;
+            $N \gets \frac{N}{2}$ \Comment*[r]{This is a comment}
+        }{\If{$N$ is odd}{
+            $y \gets y \times X$\;
+            $N \gets N - 1$\;
+            }
+        }
+        }
+        \end{algorithm}
         \section{Spoon}
     \end{multicols}
+
+\begin{algorithm}
+\caption{An algorithm to make call graph}\label{alg:appel}
+\KwData{$programme$}
+\KwResult{$graphe\ d'appel$}
+$g \gets new\ Graph() $\;
+\For{each class c}{
+    \For{each method m implemented in c}{
+        \For{each method invoqued i in m}{
+            \If{!isExternalMethod(i)} {
+                $ajoute\ une\ arête\ de\ m\ vers\ i$\;
+            }
+        }
+    }
+}
+\end{algorithm}
+\begin{algorithm}
+\caption{An algorithm to make coupling graph}\label{alg:coupling}
+\KwData{$programme$}
+\KwResult{$graphe\ d'appel$}
+$g \gets new\ Graph() $\;
+\end{algorithm}
+\begin{algorithm}
+\caption{Clustering algorithm}\label{alg:appel}
+\KwData{$programme$}
+\KwResult{$graphe\ d'appel$}
+$g \gets new\ Graph()+refactor code $\;
+\end{algorithm}
 \end{document}

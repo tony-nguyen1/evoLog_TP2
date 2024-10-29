@@ -2,7 +2,7 @@ package fr.umontpellier.etu.dummy;
 
 public class E {
 	int i;int j;
-	
+
 	public E() {
 		i = 0;
 	}

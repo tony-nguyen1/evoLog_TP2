@@ -9,13 +9,13 @@ public class SponApplication {
 
 		System.out.println("Spoon");
 		System.out.println(System.getProperty("java.specification.version"));
-		
+
 		MavenLauncher launcher = new MavenLauncher(
                 "/home/tony/M2/evoLog/evoLog_TP2",
                  MavenLauncher.SOURCE_TYPE.APP_SOURCE);
 
         CtModel model = launcher.buildModel();
-        
+
         System.out.println(model);
 	}
 }
