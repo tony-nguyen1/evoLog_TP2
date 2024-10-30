@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.19)  29 OCT 2024 19:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.19)  30 OCT 2024 18:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -404,29 +404,35 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 
 LaTeX Warning: Label `alg:appel' multiply defined.
 
+
+LaTeX Warning: Label `alg:appel' multiply defined.
+
+
+LaTeX Warning: Label `alg:appel' multiply defined.
+
 )
 \openout1 = `rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Info: Redefining \degres on input line 40.
-LaTeX Info: Redefining \up on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Info: Redefining \degres on input line 41.
+LaTeX Info: Redefining \up on input line 41.
  (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2021/12/07 v1.3c Standard LaTeX Color (DPC)
 
@@ -435,7 +441,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
 )
-Package hyperref Info: Link coloring ON on input line 40.
+Package hyperref Info: Link coloring ON on input line 41.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
@@ -448,9 +454,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count313
 )
-LaTeX Info: Redefining \ref on input line 40.
-LaTeX Info: Redefining \pageref on input line 40.
-LaTeX Info: Redefining \nameref on input line 40.
+LaTeX Info: Redefining \ref on input line 41.
+LaTeX Info: Redefining \pageref on input line 41.
+LaTeX Info: Redefining \nameref on input line 41.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -475,11 +481,11 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 42.
+(Font)              <12> on input line 43.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 42.
+(Font)              <8> on input line 43.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 42.
+(Font)              <6> on input line 43.
 
 [1
 
@@ -492,50 +498,39 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \tf@toc=\write3
 \openout3 = `rapport.toc'.
 
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 6
-3.
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-) [2]
-Underfull \hbox (badness 5519) in paragraph at lines 94--95
+[2]
+Underfull \hbox (badness 5519) in paragraph at lines 97--98
  []\T1/cmr/bx/n/10 Définition[] \T1/cmr/m/n/10 TODO IN-SERT EPIC MATH
  []
 
 
-Underfull \hbox (badness 6047) in paragraph at lines 95--95
+Underfull \hbox (badness 6047) in paragraph at lines 98--98
 []\T1/cmr/bx/n/12 Graphe de cou-plage inter-
  []
 
-
-Package multicol Warning: Floats and marginpars not allowed inside `multicols' 
-environment!.
-
-
-Package multicol Warning: Floats and marginpars not allowed inside `multicols' 
-environment!.
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 138.
-
-Missing character: There is no ê in font cmr10!
-[3] [4] (rapport//rapport.aux)
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
+31.
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+) [3] [4] [5]
+(rapport//rapport.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 11838 strings out of 479551
- 189944 string characters out of 5876172
- 514627 words of memory out of 5000000
- 29651 multiletter control sequences out of 15000+600000
+ 11849 strings out of 479551
+ 190054 string characters out of 5876172
+ 517629 words of memory out of 5000000
+ 29654 multiletter control sequences out of 15000+600000
  481630 words of font info for 51 fonts, out of 8000000 for 9000
  395 hyphenation exceptions out of 8191
- 60i,19n,63p,584b,687s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600p
+ 60i,20n,63p,584b,667s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600p
+k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600p
 k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600p
 k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600p
 k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600p
 k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600p
 k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600p
@@ -548,10 +543,10 @@ k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on rapport//rapport.pdf (4 pages, 134431 bytes).
+Output written on rapport//rapport.pdf (5 pages, 151976 bytes).
 PDF statistics:
- 480 PDF objects out of 1000 (max. 8388607)
- 161 compressed objects within 2 object streams
- 32 named destinations out of 1000 (max. 500000)
- 97 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 532 PDF objects out of 1000 (max. 8388607)
+ 177 compressed objects within 2 object streams
+ 40 named destinations out of 1000 (max. 500000)
+ 105 words of extra memory for PDF output out of 10000 (max. 10000000)
 

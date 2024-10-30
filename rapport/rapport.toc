@@ -17,4 +17,8 @@
 \contentsline {subsection}{\numberline {2.4}Montrer les visiteur}{3}{subsection.2.4}%
 \contentsline {section}{\numberline {3}Clusturing}{3}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Algorithme de clustering}{3}{subsection.3.1}%
+\contentsline {paragraph}{Dendrogramme}{3}{section*.12}%
+\contentsline {subsection}{\numberline {3.2}Identification des modules}{3}{subsection.3.2}%
+\contentsline {paragraph}{Partitionnement des classes}{3}{section*.13}%
 \contentsline {section}{\numberline {4}Spoon}{3}{section.4}%
+\contentsline {paragraph}{UML}{5}{section*.14}%

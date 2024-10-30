@@ -55,14 +55,12 @@ public class UtilGraph {
 	public static Cluster clustering_hierarchique(DefaultDirectedGraph<String, MyEdge> g, Set<String> classNameSet) throws IOException {
 
 		// l'arbre dendogramme qui représentes les diffférents clusters
-		DefaultDirectedGraph<String, MyEdge> dendroTree = new DefaultDirectedGraph<>(MyEdge.class);
 		ArrayList<Cluster> clusters = new ArrayList<>(); // au début, toutes les classes sont des clusters de 1
 
 
-		classNameSet.stream().forEach(x -> {
-			clusters.add(new Leaf(x));
-			dendroTree.addVertex(x);
-		});
+		classNameSet.stream().forEach(x -> 
+			clusters.add(new Leaf(x))
+		);
 
 		Node root = null;
 
@@ -102,9 +100,7 @@ public class UtilGraph {
 		return result;
 	}
 	private static void aux_getModule(Cluster root, List<Set<String>> res) {
-		Cluster current = root;
-
-		if (current.check(2.5)) {
+		if (root.check(2.5)) {
 			res.add(root.getNames());
 		} else {
 			aux_getModule(root.getLeftChild(), res);
@@ -134,6 +130,8 @@ public class UtilGraph {
 			for (String t : classNameSet) {
 				if (!s.equals(t)) {
 					// ----
+					
+					System.out.println("("+s+", "+t+")");
 
 					aux_createEdge(masterGraph, graphPondere, nbMethodTotal, s, t);
 				}
@@ -157,6 +155,7 @@ public class UtilGraph {
 
 		if (n != 0) {
 			MyWeightedEdge e = graphPondere.addEdge(s, t);
+			System.out.println("weight="+res);
 			if (e != null) { e.setWheight(res); }
 		}
 

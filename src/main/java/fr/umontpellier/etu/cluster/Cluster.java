@@ -87,7 +87,7 @@ public abstract class Cluster {
 
 
 	/**
-	 * Vérifie si le cluster this possède une valeur cp acceptable
+	 * Vérifie si le cluster this possède une valeur cp acceptable pour pouvoir les unifiés
 	 * @param i
 	 * @return
 	 */

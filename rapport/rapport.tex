@@ -23,6 +23,7 @@
 \setlength\columnsep{30pt}
 \usepackage{algorithm2e}
 \SetKwComment{Comment}{/* }{ */}
+\RestyleAlgo{ruled}
 
 
 \usepackage{graphicx}  % pour inclure des images
@@ -52,7 +53,7 @@
     \section*{Introduction}
             \addcontentsline{toc}{section}{Introduction}
             \paragraph{}
-                Dans le cadre de l'Unité d'Enseignement Évolution et restructuration des logiciels, nous allons analysés un programme en observant son code source de manière statique.
+                Dans le cadre de l'Unité d'Enseignement Évolution et restructuration des logiciels, nous allons analysés un programme en observant son code source de manière statique. L'étape d'extraction des informations a été réalisé précédement. Nous nous trouvons à présent dans l'étape de traitement des propriétés dans le workflow. Nous allons étudier le concept de couplage des classes.
 
                 Tout d'abord, à partir du travail précédent, nous allons nous servir du graph d'appel des méthodes écrites dans les classes du projet analysé. Cela nous permettra de calculer le couplage entre les différentes classes.
 
@@ -60,7 +61,9 @@
         \section*{Démonstration vidéo}
             \addcontentsline{toc}{section}{Démonstration}
             \paragraph{}
-                En ligne sur Youtube, à l'adresse URL \url{https://youtu.be/fDvHlrK8IRg} une démonstration vidéo de notre travail.
+                En ligne sur Youtube, à l'adresse URL 
+                % \url{https://youtu.be/fDvHlrK8IRg} 
+                une démonstration vidéo de notre travail.
         \section*{Installation}
             \addcontentsline{toc}{section}{Installation}
             \paragraph{}
@@ -100,24 +103,9 @@
         \section{Clusturing}
         Nous allons maintenant voir comment nous avons rassemblé les classes entre elles. 
         \subsection{Algorithme de clustering}
-        \begin{algorithm}
-        \caption{An algorithm with caption}\label{alg:two}
-        \KwData{$n \geq 0$}
-        \KwResult{$y = x^n$}
-        $y \gets 1$\;
-        $X \gets x$\;
-        $N \gets n$\;
-        \While{$N \neq 0$}{
-        \eIf{$N$ is even}{
-            $X \gets X \times X$\;
-            $N \gets \frac{N}{2}$ \Comment*[r]{This is a comment}
-        }{\If{$N$ is odd}{
-            $y \gets y \times X$\;
-            $N \gets N - 1$\;
-            }
-        }
-        }
-        \end{algorithm}
+        \paragraph{Dendrogramme}
+        \subsection{Identification des modules}
+        \paragraph{Partitionnement des classes}
         \section{Spoon}
     \end{multicols}
 
@@ -130,22 +118,72 @@ $g \gets new\ Graph() $\;
     \For{each method m implemented in c}{
         \For{each method invoqued i in m}{
             \If{!isExternalMethod(i)} {
-                $ajoute\ une\ arête\ de\ m\ vers\ i$\;
+                $g.addSommet(m)$\;
+                $g.addSommet(i)$
+                \Comment*[r]{ajout des sommets m et i}
+
+                $g.addVertex(m,i)$ \Comment*[r]{ajoute une arete de m vers i}
+
             }
         }
     }
 }
+$return\ g$\;
 \end{algorithm}
 \begin{algorithm}
-\caption{An algorithm to make coupling graph}\label{alg:coupling}
-\KwData{$programme$}
-\KwResult{$graphe\ d'appel$}
-$g \gets new\ Graph() $\;
+\caption{An algorithm to make a weighted graph corresponding to the coupling between class}\label{alg:coupling}
+\KwData{$le\ graphe\ d'appel$}
+\KwResult{$graphe\ pondere$}
+$graphPondere \gets new\ GraphPondere() $\;
+\Comment{Produit cartésion entre toutes les classes de l'application en retirant les couples identiques (x,x)}
+\For{each String aClassName1 in classNameSet}{
+    \For{each String aClassName2 in classNameSet}{
+        \If{aClassName1 != aClassName2} {
+
+            $cpValue \gets calculCouplageValueEntre(aClassName1, aClassName2)$\;
+
+            \If{cpValue > 0} {
+                $graphPondere.addArete(aClassName1,aClassName2,cpValue)$\;
+            }
+        }
+    }
+    }
+    $return\ graphPondere$\;
 \end{algorithm}
 \begin{algorithm}
-\caption{Clustering algorithm}\label{alg:appel}
-\KwData{$programme$}
-\KwResult{$graphe\ d'appel$}
-$g \gets new\ Graph()+refactor code $\;
+    \paragraph{UML} INSERT UML CLASS DIAGRAM OF Cluster composite pattern
+\caption{Clustering algorithm (Creating the Dendrogramme)}\label{alg:appel}
+\KwData{$graph\ d'appel$}
+\KwResult{$the\ dendrogramme$}
+\Comment{Stratégie: toutes les class sont leurs propres cluster. On va essayer de fusioner les clusters entre eux en fonction du couplage}
+$clusters \gets Cluster[]$\;
+\For{each String aClassName in classNameSet}{
+    $clusters.add(new\ Leaf(aClassName))$\;
+}
+$i \gets 0$\;
+$Node root \gets null$\;
+\While{i < size(clusters)} {
+    $n \gets laFusionEntreLes2CLustersLesPlusProche()$\;
+    $on\ retire\ les\ 2\ enfants\ du\ noeud\ n$\;
+    $clusters.add(n)$\;
+    $i++$\;
+}
+$return\ root$\;
+\end{algorithm}
+\begin{algorithm}
+    \caption{Identification des modules}\label{alg:appel}
+    \KwData{$dendrogramme\ root$}
+    \KwResult{$Partitionnement\ en\ modules$}
+    $result$\Comment{   une liste d'ensemble de String}
+    $auxGetModule(root, result)$\;
+    $return result$\;
+\end{algorithm}
+\begin{algorithm}
+    \caption{auxGetModule}\label{alg:appel}
+    \KwData{$dendrogramme\ root$}
+    \KwResult{$Partitionnement\ en\ modules$}
+    \eIf{root possède une valeur de couplage suffisante ou si c'est une feuille} {
+        on a trouvé un module
+    } {on fait la même chose au enfants de root de façon récursive}
 \end{algorithm}
 \end{document}
