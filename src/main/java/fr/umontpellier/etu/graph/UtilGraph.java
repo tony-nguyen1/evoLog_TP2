@@ -17,7 +17,7 @@ public class UtilGraph {
 	/**
 	 * Calcul le nombre d'appel entre les classes de A et B.
 	 */
-	public static int nbRelation(DefaultDirectedGraph<String, MyEdge> g, String A, String B) { //TODO delete this & use clusterProche?
+	public static int nbRelation(DefaultDirectedGraph<String, MyEdge> g, String A, String B) {
 		int nbAppel = 0;
 
 		nbAppel += g.edgeSet().stream().filter(e -> e.getClassNameSource().equals(B)).filter(e -> e.getClassNameTarget().equals(A)).count();
@@ -52,7 +52,9 @@ public class UtilGraph {
 	 * @param g
 	 * @throws IOException
 	 */
-	public static Cluster clustering_hierarchique(DefaultDirectedGraph<String, MyEdge> g, Set<String> classNameSet) throws IOException {
+	public static Cluster clustering_hierarchique(
+			DefaultDirectedGraph<String, MyEdge> g, 
+			Set<String> classNameSet) throws IOException {
 
 		// l'arbre dendogramme qui représentes les diffférents clusters
 		ArrayList<Cluster> clusters = new ArrayList<>(); // au début, toutes les classes sont des clusters de 1
@@ -77,7 +79,7 @@ public class UtilGraph {
 			i++;
 		}
 
-		return root;//new Pair<>(dendroTree, root);
+		return root;
 	}
 
 	/**
@@ -116,7 +118,10 @@ public class UtilGraph {
 	 * @param nbMethodTotal
 	 * @return
 	 */
-	public static SimpleWeightedGraph<String, MyWeightedEdge> getGraphCouplage(Set<String> classNameSet, DefaultDirectedGraph<String, MyEdge> masterGraph, int nbMethodTotal) {
+	public static SimpleWeightedGraph<String, MyWeightedEdge> getGraphCouplage(
+			Set<String> classNameSet, 
+			DefaultDirectedGraph<String, MyEdge> masterGraph, 
+			int nbMethodTotal) {
 
 		// instanciation d'un graph pondéré
 		SimpleWeightedGraph <String, MyWeightedEdge> graphPondere =
@@ -131,9 +136,9 @@ public class UtilGraph {
 				if (!s.equals(t)) {
 					// ----
 					
-					System.out.println("("+s+", "+t+")");
+//					System.out.println("("+s+", "+t+")");
 
-					aux_createEdge(masterGraph, graphPondere, nbMethodTotal, s, t);
+					aux_createEdge(masterGraph, graphPondere, nbMethodTotal*nbMethodTotal, s, t);
 				}
 			}
 		}
@@ -155,7 +160,6 @@ public class UtilGraph {
 
 		if (n != 0) {
 			MyWeightedEdge e = graphPondere.addEdge(s, t);
-			System.out.println("weight="+res);
 			if (e != null) { e.setWheight(res); }
 		}
 

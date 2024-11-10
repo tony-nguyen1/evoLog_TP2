@@ -10,6 +10,7 @@ public class A extends B {
 
 	public A() {
 		this.j = 1;
+		C c = new C(); c.getI();
 		(new C()).getI();
 		System.out.print("");
 	}

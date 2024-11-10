@@ -56,6 +56,7 @@ public class GraphVisitor extends ASTVisitor {
 //        System.out.println("Nom complet de la méthode: " + fullMethodName);
 
 		g.addVertex(fullMethodName);
+//		System.out.println(fullMethodName);
 
 		// Parcourir le corps de la méthode pour trouver les MethodInvocation
         node.getBody().accept(new ASTVisitor() {
@@ -71,6 +72,7 @@ public class GraphVisitor extends ASTVisitor {
                 if (methodBinding != null) {
                     // Récupérer le nom de la méthode appelée
                     String methodName2 = methodBinding.getName();
+//                    System.out.println("->"+methodName2);
 
                     // Récupérer la classe ou l'interface dans laquelle la méthode est définie
                     ITypeBinding declaringClass = methodBinding.getDeclaringClass();
@@ -85,12 +87,15 @@ public class GraphVisitor extends ASTVisitor {
 
 
                         MyEdge e = g.addEdge(source, target);
+                        
+                        if (e!=null) {
+                        	e.setClassNameSource(currentPackage + "." + className);
+                        	e.setMethodNameSource(methodName);
+                        	
+                        	e.setClassTargetSource(declaringClassName);
+                        	e.setMethodNameTarget(methodName2);                        	
+                        }
 
-                        e.setClassNameSource(currentPackage + "." + className);
-                        e.setMethodNameSource(methodName);
-
-                        e.setClassTargetSource(declaringClassName);
-                        e.setMethodNameTarget(methodName2);
                     }
                 } else {
 //                	System.out.println("resolveMethodBinding not succesful");

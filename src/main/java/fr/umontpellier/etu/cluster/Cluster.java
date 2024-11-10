@@ -38,7 +38,9 @@ public abstract class Cluster {
 	 * @param clusters
 	 * @return
 	 */
-	public static Node clusterProche(ArrayList<Cluster> clusters, DefaultDirectedGraph<String, MyEdge> g) {
+	public static Node clusterProche(
+			ArrayList<Cluster> clusters, 
+			DefaultDirectedGraph<String, MyEdge> g) {
 
 		assert clusters.size() > 1;
 

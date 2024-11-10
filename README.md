@@ -1,4 +1,4 @@
-# evoLog_TP1
+# evoLog_TP2
 
 pdflatex -output-directory rapport/ rapport/rapport.tex 
 
@@ -8,10 +8,14 @@ https://www.microfocus.com/documentation/visual-cobol/vc70/EclWin/GUID-773A19C7-
 
 # Run
 
-Lancer app.MyParser
+Créer le dossier src/test/resources/ dans evoLog_TP2 et target/img dans littleSpoon.
 
-Ne pas oublier de parametrer les variables final.# evoLog_TP2
+Dans evoLog_TP2 et littleSpoon run "mvn install".
 
-## TODO
-Quand on regarde l'image des appels, les constructeurs sont montrés, mais pas de flèche dans leur direction.
-Constructeurs pas compté...
+Pour lancer :
+
+java -cp ./target/TP2-1.0-SNAPSHOT-jar-with-dependencies.jar fr.umontpellier.etu.app.ParserApplication
+
+Pour Créer les graph avec Spoon :
+
+java -cp ./target/littleSpoon-0.0.1-SNAPSHOT-jar-with-dependencies.jar fr.umontpellier.etu.littleSpoon.App

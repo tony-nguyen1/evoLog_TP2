@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.19)  30 OCT 2024 18:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.19)  10 NOV 2024 20:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -400,17 +400,7 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count312
 \l__pdf_internal_box=\box103
 )
-(rapport//rapport.aux
-
-LaTeX Warning: Label `alg:appel' multiply defined.
-
-
-LaTeX Warning: Label `alg:appel' multiply defined.
-
-
-LaTeX Warning: Label `alg:appel' multiply defined.
-
-)
+(rapport//rapport.aux)
 \openout1 = `rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
@@ -433,7 +423,8 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 41.
 LaTeX Font Info:    ... okay on input line 41.
 LaTeX Info: Redefining \degres on input line 41.
 LaTeX Info: Redefining \up on input line 41.
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2021/12/07 v1.3c Standard LaTeX Color (DPC)
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -486,10 +477,16 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 43.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 43.
+<rapport/img//logo.png, id=4, 602.25pt x 401.5pt>
+File: rapport/img//logo.png Graphic file (type png)
+<use rapport/img//logo.png>
+Package pdftex.def Info: rapport/img//logo.png  used on input line 45.
+(pdftex.def)             Requested size: 452.9679pt x 301.98807pt.
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (rapport//rapport.toc
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./rapport/img//logo.png>] 
+(rapport//rapport.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 11.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -498,55 +495,290 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \tf@toc=\write3
 \openout3 = `rapport.toc'.
 
+ (rapport//rapport.loa)
+\tf@loa=\write4
+\openout4 = `rapport.loa'.
 
-[2]
-Underfull \hbox (badness 5519) in paragraph at lines 97--98
- []\T1/cmr/bx/n/10 Définition[] \T1/cmr/m/n/10 TODO IN-SERT EPIC MATH
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 6
+7.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+) [2]
+<rapport/img//diagram.png, id=63, 1254.6875pt x 885.3075pt>
+File: rapport/img//diagram.png Graphic file (type png)
+<use rapport/img//diagram.png>
+Package pdftex.def Info: rapport/img//diagram.png  used on input line 91.
+(pdftex.def)             Requested size: 208.36827pt x 147.01503pt.
+<rapport/img//appel/code.png, id=65, 771.88374pt x 966.61125pt>
+File: rapport/img//appel/code.png Graphic file (type png)
+<use rapport/img//appel/code.png>
+Package pdftex.def Info: rapport/img//appel/code.png  used on input line 97.
+(pdftex.def)             Requested size: 211.60323pt x 264.98926pt.
+
+Underfull \hbox (badness 7047) in paragraph at lines 96--98
+\T1/cmr/m/n/10 de ce tra-vail. Il nous per-met-tra en-suite
  []
 
 
-Underfull \hbox (badness 6047) in paragraph at lines 98--98
+Overfull \hbox (0.11928pt too wide) in paragraph at lines 96--98
+[] 
+ []
+
+<rapport/img//appel/graphAppelShort.png, id=68, 1746.525pt x 191.71625pt>
+File: rapport/img//appel/graphAppelShort.png Graphic file (type png)
+<use rapport/img//appel/graphAppelShort.png>
+Package pdftex.def Info: rapport/img//appel/graphAppelShort.png  used on input 
+line 107.
+(pdftex.def)             Requested size: 317.07614pt x 34.80582pt.
+
+Overfull \hbox (105.5922pt too wide) in paragraph at lines 107--108
+[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--135
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--135
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--135
+\OML/cmm/m/it/10 nbRelationBinaire \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 nbMethodT
+otal \OMS/cmsy/m/n/10 ^^C
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--135
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--135
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--135
+\OML/cmm/m/it/10 nbRelation\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 A; B\OT1/cmr/m/n/1
+0 ) = \OML/cmm/m/it/10 nbRelation[] \OT1/cmr/m/n/10 +
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--135
+
+ []
+
+
+Overfull \hbox (37.88045pt too wide) in paragraph at lines 109--135
+\OML/cmm/m/it/10 Couplage\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 A; B\OT1/cmr/m/n/10 
+) = \OML/cmm/m/it/10 nbRelation\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 A; B\OT1/cmr/m
+/n/10 )\OML/cmm/m/it/10 =nbRelationBinaire$ 
+ []
+
+[3 <./rapport/img//diagram.png> <./rapport/img//appel/code.png> <./rapport/img/
+/appel/graphAppelShort.png (PNG copy)>]
+Underfull \hbox (badness 6047) in paragraph at lines 135--135
 []\T1/cmr/bx/n/12 Graphe de cou-plage inter-
  []
 
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-31.
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-) [3] [4] [5]
-(rapport//rapport.aux)
+<rapport/img//coupl/codeA.png, id=83, 759.83875pt x 469.755pt>
+File: rapport/img//coupl/codeA.png Graphic file (type png)
+<use rapport/img//coupl/codeA.png>
+Package pdftex.def Info: rapport/img//coupl/codeA.png  used on input line 143.
+(pdftex.def)             Requested size: 208.36827pt x 128.81387pt.
+<rapport/img//coupl/codeB.png, id=84, 759.83875pt x 335.2525pt>
+File: rapport/img//coupl/codeB.png Graphic file (type png)
+<use rapport/img//coupl/codeB.png>
+Package pdftex.def Info: rapport/img//coupl/codeB.png  used on input line 144.
+(pdftex.def)             Requested size: 208.36827pt x 91.93126pt.
+<rapport/img//coupl/codeC.png, id=85, 1106.1325pt x 143.53625pt>
+File: rapport/img//coupl/codeC.png Graphic file (type png)
+<use rapport/img//coupl/codeC.png>
+Package pdftex.def Info: rapport/img//coupl/codeC.png  used on input line 145.
+(pdftex.def)             Requested size: 208.36827pt x 27.03781pt.
 
-LaTeX Warning: There were multiply-defined labels.
+Underfull \hbox (badness 10000) in paragraph at lines 143--146
+[]
+ []
 
- ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--146
+[]
+ []
+
+<rapport/img//coupl/graphPondereCouplageClass.png, id=86, 453.695pt x 276.03125
+pt>
+File: rapport/img//coupl/graphPondereCouplageClass.png Graphic file (type png)
+<use rapport/img//coupl/graphPondereCouplageClass.png>
+Package pdftex.def Info: rapport/img//coupl/graphPondereCouplageClass.png  used
+ on input line 153.
+(pdftex.def)             Requested size: 208.36827pt x 126.77373pt.
+<rapport/img//cluster/codeA.png, id=89, 875.27pt x 502.87875pt>
+File: rapport/img//cluster/codeA.png Graphic file (type png)
+<use rapport/img//cluster/codeA.png>
+Package pdftex.def Info: rapport/img//cluster/codeA.png  used on input line 162
+.
+(pdftex.def)             Requested size: 208.36827pt x 119.71118pt.
+<rapport/img//cluster/codeB.png, id=90, 711.65875pt x 571.13374pt>
+File: rapport/img//cluster/codeB.png Graphic file (type png)
+<use rapport/img//cluster/codeB.png>
+Package pdftex.def Info: rapport/img//cluster/codeB.png  used on input line 163
+.
+(pdftex.def)             Requested size: 208.36827pt x 167.21935pt.
+<rapport/img//cluster/codeC.png, id=91, 1190.4475pt x 149.55875pt>
+File: rapport/img//cluster/codeC.png Graphic file (type png)
+<use rapport/img//cluster/codeC.png>
+Package pdftex.def Info: rapport/img//cluster/codeC.png  used on input line 164
+.
+(pdftex.def)             Requested size: 208.36827pt x 26.17773pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--165
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--165
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--165
+[]
+ []
+
+[4 <./rapport/img//coupl/codeA.png> <./rapport/img//coupl/codeB.png> <./rapport
+/img//coupl/codeC.png> <./rapport/img//coupl/graphPondereCouplageClass.png (PNG
+ copy)> <./rapport/img//cluster/codeA.png>]
+<rapport/img//module/code.png, id=115, 730.73pt x 333.245pt>
+File: rapport/img//module/code.png Graphic file (type png)
+<use rapport/img//module/code.png>
+Package pdftex.def Info: rapport/img//module/code.png  used on input line 171.
+(pdftex.def)             Requested size: 208.36827pt x 95.02156pt.
+<rapport/img//module/check.png, id=116, 711.65875pt x 112.42pt>
+File: rapport/img//module/check.png Graphic file (type png)
+<use rapport/img//module/check.png>
+Package pdftex.def Info: rapport/img//module/check.png  used on input line 172.
+
+(pdftex.def)             Requested size: 208.36827pt x 32.91487pt.
+<rapport/img//module/checkNode.png, id=117, 266.9975pt x 79.29625pt>
+File: rapport/img//module/checkNode.png Graphic file (type png)
+<use rapport/img//module/checkNode.png>
+Package pdftex.def Info: rapport/img//module/checkNode.png  used on input line 
+173.
+(pdftex.def)             Requested size: 208.36827pt x 61.8859pt.
+<rapport/img//module/checkLeaf.png, id=118, 266.9975pt x 82.3075pt>
+File: rapport/img//module/checkLeaf.png Graphic file (type png)
+<use rapport/img//module/checkLeaf.png>
+Package pdftex.def Info: rapport/img//module/checkLeaf.png  used on input line 
+174.
+(pdftex.def)             Requested size: 208.36827pt x 64.236pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 171--177
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 171--177
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 171--177
+[]
+ []
+
+<rapport/img//spoon/code.png, id=119, 729.72626pt x 163.61125pt>
+File: rapport/img//spoon/code.png Graphic file (type png)
+<use rapport/img//spoon/code.png>
+Package pdftex.def Info: rapport/img//spoon/code.png  used on input line 184.
+(pdftex.def)             Requested size: 208.36827pt x 46.71706pt.
+<rapport/img//spoon/isExternalMethod.png, id=120, 595.22375pt x 96.36pt>
+File: rapport/img//spoon/isExternalMethod.png Graphic file (type png)
+<use rapport/img//spoon/isExternalMethod.png>
+Package pdftex.def Info: rapport/img//spoon/isExternalMethod.png  used on input
+ line 185.
+(pdftex.def)             Requested size: 208.36827pt x 33.73238pt.
+<rapport/img//spoon/getGraphAppel.png, id=121, 1005.7575pt x 693.59125pt>
+File: rapport/img//spoon/getGraphAppel.png Graphic file (type png)
+<use rapport/img//spoon/getGraphAppel.png>
+Package pdftex.def Info: rapport/img//spoon/getGraphAppel.png  used on input li
+ne 186.
+(pdftex.def)             Requested size: 208.36827pt x 143.68996pt.
+<rapport/img//spoon/graphAppel.png, id=122, 1037.8775pt x 191.71625pt>
+File: rapport/img//spoon/graphAppel.png Graphic file (type png)
+<use rapport/img//spoon/graphAppel.png>
+Package pdftex.def Info: rapport/img//spoon/graphAppel.png  used on input line 
+187.
+(pdftex.def)             Requested size: 208.36827pt x 38.48883pt.
+<rapport/img//spoon/graphPondereCouplageClass.png, id=123, 453.695pt x 276.0312
+5pt>
+File: rapport/img//spoon/graphPondereCouplageClass.png Graphic file (type png)
+<use rapport/img//spoon/graphPondereCouplageClass.png>
+Package pdftex.def Info: rapport/img//spoon/graphPondereCouplageClass.png  used
+ on input line 188.
+(pdftex.def)             Requested size: 208.36827pt x 126.77373pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--189
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--189
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--189
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--189
+[]
+ []
+
+[5 <./rapport/img//cluster/codeB.png> <./rapport/img//cluster/codeC.png> <./rap
+port/img//module/code.png> <./rapport/img//module/check.png> <./rapport/img//mo
+dule/checkNode.png> <./rapport/img//module/checkLeaf.png> <./rapport/img//spoon
+/code.png> <./rapport/img//spoon/isExternalMethod.png> <./rapport/img//spoon/ge
+tGraphAppel.png> <./rapport/img//spoon/graphAppel.png (PNG copy)> <./rapport/im
+g//spoon/graphPondereCouplageClass.png (PNG copy)>] [6] [7]
+(rapport//rapport.aux) ) 
 Here is how much of TeX's memory you used:
- 11849 strings out of 479551
- 190054 string characters out of 5876172
- 517629 words of memory out of 5000000
- 29654 multiletter control sequences out of 15000+600000
- 481630 words of font info for 51 fonts, out of 8000000 for 9000
+ 12113 strings out of 479551
+ 197583 string characters out of 5876172
+ 514601 words of memory out of 5000000
+ 29877 multiletter control sequences out of 15000+600000
+ 480946 words of font info for 50 fonts, out of 8000000 for 9000
  395 hyphenation exceptions out of 8191
- 60i,20n,63p,584b,667s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti0900.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600p
-k> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600p
-k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on rapport//rapport.pdf (5 pages, 151976 bytes).
+ 60i,20n,63p,736b,665s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecti1000.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecbx1200.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/tcrm1000.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ectt1000.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecbx1000.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecbx1440.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecrm1000.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecti0900.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecbx0900.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecrm1200.600pk> </home/tony/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecrm1728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on rapport//rapport.pdf (7 pages, 972172 bytes).
 PDF statistics:
- 532 PDF objects out of 1000 (max. 8388607)
- 177 compressed objects within 2 object streams
- 40 named destinations out of 1000 (max. 500000)
- 105 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 617 PDF objects out of 1000 (max. 8388607)
+ 211 compressed objects within 3 object streams
+ 50 named destinations out of 1000 (max. 500000)
+ 197 words of extra memory for PDF output out of 10000 (max. 10000000)
 
